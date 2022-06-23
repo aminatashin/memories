@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const getPosts = createAsyncThunk(
-  "posts/getPosts",
+  "PostsSlice/getPosts",
   async (url, thunkAPI) => {
     try {
       const res = await fetch(url);
@@ -16,9 +16,15 @@ export const getPosts = createAsyncThunk(
   }
 );
 const getPostsSlice = createSlice({
-  name: "getPosts",
-  initialState: [],
-  reducer: {},
+  name: "PostsSlice",
+  initialState: {
+    stock: [],
+  },
+  reducer: {
+    addPosts: (state, action) => {
+      state.push(action.payload);
+    },
+  },
   extraReducers: {
     [getPosts.pending]: (state, action) => {
       return {
@@ -28,6 +34,7 @@ const getPostsSlice = createSlice({
     [getPosts.fulfilled]: (state, action) => {
       return {
         ...state,
+        stock: action.payload,
       };
     },
     [getPosts.rejected]: (state, action) => {
@@ -38,3 +45,4 @@ const getPostsSlice = createSlice({
   },
 });
 export default getPostsSlice.reducer;
+export const { addPosts } = getPostsSlice.actions;

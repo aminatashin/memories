@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
-import { postAded } from "../../slice/postSlice";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
+import { addPosts } from "../../slice/fetchSlice";
+import { postAded } from "../../slice/postSlice";
 const Form = () => {
   const [postData, setPostData] = useState({
     creator: "",
@@ -14,7 +15,10 @@ const Form = () => {
   });
   const dispatch = useDispatch();
   const classes = useStyles();
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(postAded(postData.title));
+  };
   return (
     <Paper className={classes.paper}>
       <form
