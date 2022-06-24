@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Container, AppBar, Grow, Typography, Grid } from "@material-ui/core";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";

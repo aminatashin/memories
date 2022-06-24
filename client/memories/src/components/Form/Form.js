@@ -3,7 +3,7 @@ import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
-import { addPosts } from "../../slice/fetchSlice";
+
 import { postAded } from "../../slice/postSlice";
 const Form = () => {
   const [postData, setPostData] = useState({
@@ -17,7 +17,14 @@ const Form = () => {
   const classes = useStyles();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postAded(postData.title));
+    dispatch(postAded(postData));
+    setPostData({
+      creator: "",
+      title: "",
+      memory: "",
+      tags: "",
+      selectedFile: "",
+    });
   };
   return (
     <Paper className={classes.paper}>
@@ -47,14 +54,12 @@ const Form = () => {
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
         <TextField
-          name="messgae"
+          name="message"
           variant="outlined"
-          label="messgae"
+          label="memory"
           fullWidth
           value={postData.messgae}
-          onChange={(e) =>
-            setPostData({ ...postData, messgae: e.target.value })
-          }
+          onChange={(e) => setPostData({ ...postData, memory: e.target.value })}
         />
         <TextField
           name="tags"

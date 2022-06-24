@@ -3,6 +3,16 @@ import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { Paper } from "@material-ui/core";
 import { getPosts } from "../../../slice/fetchSlice";
+import {
+  Box,
+  Typography,
+  Button,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Chip,
+} from "@material-ui/core";
 
 const Post = () => {
   useEffect(() => {
@@ -17,11 +27,41 @@ const Post = () => {
   return (
     <div>
       <h1>singlePost</h1>
-      {posts.map((post) => (
-        <h1>{post.title}</h1>
-      ))}
       {other.map((post) => (
-        <h1>{post.title}</h1>
+        <Card elevation={6}>
+          <CardMedia style={{ height: 350 }} image={post.selectedFile} />
+          <CardContent>
+            <Typography gutterBottom veriant="h5">
+              {post.creator}
+            </Typography>
+            <Typography gutterBottom veriant="h5">
+              {post.title}
+            </Typography>
+
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="subtitle1">{post.memory}</Typography>
+            </Box>
+            <Typography gutterBottom veriant="h5">
+              {post.tags}
+            </Typography>
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => window.open(post.web_url)}
+              >
+                Trip Advisor
+              </Button>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => window.open(post.website)}
+              >
+                website
+              </Button>
+            </CardActions>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
