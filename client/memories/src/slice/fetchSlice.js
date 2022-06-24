@@ -20,11 +20,7 @@ const getPostsSlice = createSlice({
   initialState: {
     stock: [],
   },
-  reducer: {
-    addPosts: (state, action) => {
-      state.push(action.payload);
-    },
-  },
+  reducer: {},
   extraReducers: {
     [getPosts.pending]: (state, action) => {
       return {

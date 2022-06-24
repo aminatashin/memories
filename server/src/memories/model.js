@@ -3,7 +3,7 @@ const { Schema, model } = mongoose;
 // =============================
 const memorySchema = new Schema({
   title: { type: String },
-  message: { type: String },
+  memory: { type: String },
   creator: { type: String },
   tags: [String],
   selectedFile: { type: String },
