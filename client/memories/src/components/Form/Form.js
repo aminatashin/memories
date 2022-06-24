@@ -9,10 +9,13 @@ const Form = () => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
-    message: "",
+    memory: "",
     tags: "",
+    url: "",
+    url2: "",
     selectedFile: "",
   });
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const handleSubmit = (e) => {
@@ -23,9 +26,17 @@ const Form = () => {
       title: "",
       memory: "",
       tags: "",
+      url: "",
+      url2: "",
       selectedFile: "",
     });
   };
+  const canSubmit =
+    Boolean(postData.creator) &&
+    Boolean(postData.title) &&
+    Boolean(postData.memory) &&
+    Boolean(postData.tags) &&
+    Boolean(postData.selectedFile);
   return (
     <Paper className={classes.paper}>
       <form
@@ -69,6 +80,24 @@ const Form = () => {
           value={postData.tags}
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
+        <TextField
+          name="url"
+          variant="outlined"
+          label="URL"
+          placeholder="The Place"
+          fullWidth
+          value={postData.url}
+          onChange={(e) => setPostData({ ...postData, url: e.target.value })}
+        />
+        <TextField
+          name="url2"
+          variant="outlined"
+          label="URL2"
+          placeholder="The Hotel or cabin"
+          fullWidth
+          value={postData.url2}
+          onChange={(e) => setPostData({ ...postData, url2: e.target.value })}
+        />
         <div className={classes.fileInput}>
           <FileBase64
             type="file"
@@ -85,6 +114,7 @@ const Form = () => {
           size="large"
           type="submit"
           fullWidth
+          disabled={!canSubmit}
         >
           Submit
         </Button>

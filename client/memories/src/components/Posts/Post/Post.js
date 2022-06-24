@@ -19,28 +19,29 @@ const Post = () => {
     dispatch(getPosts("http://localhost:5000/memory"));
   }, []);
   const classes = useStyles();
-  const posts = useSelector((state) => state.PostsSlice.stock);
-  const other = useSelector((state) => state.posts);
+  // const posts = useSelector((state) => state.PostsSlice.stock);
+  const posts = useSelector((state) => state.posts);
+
   const dispatch = useDispatch();
-  console.log(posts);
 
   return (
     <div>
       <h1>singlePost</h1>
-      {other.map((post) => (
+      {posts.map((post) => (
         <Card elevation={6}>
           <CardMedia style={{ height: 350 }} image={post.selectedFile} />
           <CardContent>
-            <Typography gutterBottom veriant="h5">
+            <Typography gutterBottom veriant="h3">
               {post.creator}
             </Typography>
-            <Typography gutterBottom veriant="h5">
+
+            <Typography gutterBottom variant="h5">
+              {post.memory}
+            </Typography>
+            <Typography gutterBottom veriant="h4">
               {post.title}
             </Typography>
 
-            <Box display="flex" justifyContent="space-between">
-              <Typography variant="subtitle1">{post.memory}</Typography>
-            </Box>
             <Typography gutterBottom veriant="h5">
               {post.tags}
             </Typography>
@@ -48,16 +49,16 @@ const Post = () => {
               <Button
                 size="small"
                 color="primary"
-                onClick={() => window.open(post.web_url)}
+                onClick={() => window.open(post.url)}
               >
-                Trip Advisor
+                where was It ?
               </Button>
               <Button
                 size="small"
                 color="primary"
-                onClick={() => window.open(post.website)}
+                onClick={() => window.open(post.url2)}
               >
-                website
+                Any Hotel or Cabin?
               </Button>
             </CardActions>
           </CardContent>
