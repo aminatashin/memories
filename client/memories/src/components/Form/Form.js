@@ -69,7 +69,7 @@ const Form = () => {
           variant="outlined"
           label="memory"
           fullWidth
-          value={postData.messgae}
+          value={postData.memory}
           onChange={(e) => setPostData({ ...postData, memory: e.target.value })}
         />
         <TextField
