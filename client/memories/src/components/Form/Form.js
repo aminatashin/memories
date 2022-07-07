@@ -5,6 +5,7 @@ import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
 
 import { postAded } from "../../slice/postSlice";
+// ============================================
 const Form = () => {
   const [postData, setPostData] = useState({
     creator: "",
@@ -15,12 +16,14 @@ const Form = () => {
     url2: "",
     selectedFile: "",
   });
-
+  // ============================================
   const dispatch = useDispatch();
   const classes = useStyles();
+  // ============================================
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postAded(postData));
+    fetchPost();
     setPostData({
       creator: "",
       title: "",
@@ -31,12 +34,27 @@ const Form = () => {
       selectedFile: "",
     });
   };
+  // ============================================
+  const fetchPost = async () => {
+    const res = await fetch("http://localhost:5000/memory", {
+      method: "post",
+      body: JSON.stringify(postData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      alert("successfully added the Beautiful Memory!");
+    }
+  };
+  // ============================================
   const canSubmit =
     Boolean(postData.creator) &&
     Boolean(postData.title) &&
     Boolean(postData.memory) &&
     Boolean(postData.tags) &&
     Boolean(postData.selectedFile);
+  // ============================================
   return (
     <Paper className={classes.paper}>
       <form
