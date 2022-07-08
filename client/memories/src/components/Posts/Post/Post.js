@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
-import { Paper } from "@material-ui/core";
+
 import { getPosts } from "../../../slice/fetchSlice";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import DeleteIcon from "@material-ui/icons/Delete";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import {
-  Box,
   Typography,
   Button,
   Card,
   CardMedia,
   CardContent,
   CardActions,
-  Chip,
 } from "@material-ui/core";
 
 const Post = () => {
@@ -24,80 +25,131 @@ const Post = () => {
 
   const dispatch = useDispatch();
 
+  // return (
+  //   <div>
+  //     <h1>singlePost</h1>
+  //     {fetchPosts.map((post) => (
+  //       <Card elevation={6}>
+  //         <CardContent>
+  //           <Typography gutterBottom veriant="h3">
+  //             {post.creator}
+  //           </Typography>
+
+  //           <Typography gutterBottom variant="h5">
+  //             {post.memory}
+  //           </Typography>
+  //           <Typography gutterBottom veriant="h4">
+  //             {post.title}
+  //           </Typography>
+
+  //           <Typography gutterBottom veriant="h5">
+  //             {post.tags}
+  //           </Typography>
+  //           <CardActions>
+  //             <Button
+  //               size="small"
+  //               color="primary"
+  //               onClick={() => window.open(post.url)}
+  //             >
+  //               where was It ?
+  //             </Button>
+  //             <Button
+  //               size="small"
+  //               color="primary"
+  //               onClick={() => window.open(post.url2)}
+  //             >
+  //               Any Hotel or Cabin?
+  //             </Button>
+  //           </CardActions>
+  //         </CardContent>
+  //       </Card>
+  //     ))}
+  //     {posts.map((post) => (
+  //       <Card elevation={6}>
+  //         <CardMedia style={{ height: 350 }} image={post.selectedFile} />
+  //         <CardContent>
+  //           <Typography gutterBottom veriant="h3">
+  //             {post.creator}
+  //           </Typography>
+
+  //           <Typography gutterBottom variant="h5">
+  //             {post.memory}
+  //           </Typography>
+  //           <Typography gutterBottom veriant="h4">
+  //             {post.title}
+  //           </Typography>
+
+  //           <Typography gutterBottom veriant="h5">
+  //             {post.tags}
+  //           </Typography>
+  //           <CardActions>
+  //             <Button
+  //               size="small"
+  //               color="primary"
+  //               onClick={() => window.open(post.url)}
+  //             >
+  //               where was It ?
+  //             </Button>
+  //             <Button
+  //               size="small"
+  //               color="primary"
+  //               onClick={() => window.open(post.url2)}
+  //             >
+  //               Any Hotel or Cabin?
+  //             </Button>
+  //           </CardActions>
+  //         </CardContent>
+  //       </Card>
+  //     ))}
+  //   </div>
+  // );
   return (
     <div>
-      <h1>singlePost</h1>
       {fetchPosts.map((post) => (
-        <Card elevation={6}>
+        <Card className={classes.card}>
+          <CardMedia
+            className={classes.media}
+            image={
+              post.selectedFile ||
+              "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+            }
+            title={post.title}
+          />
+          <div className={classes.overlay}>
+            <Typography variant="h6">{post.creator}</Typography>
+            <Typography variant="body2">{post.createdAt}</Typography>
+          </div>
+          <div className={classes.overlay2}>
+            <Button style={{ color: "white" }} size="small" onClick={""}>
+              <MoreHorizIcon fontSize="default" />
+            </Button>
+          </div>
+          <div className={classes.details}>
+            <Typography variant="body2" color="textSecondary" component="h2">
+              {post.tags.map((tag) => `#${tag} `)}
+            </Typography>
+          </div>
+          <Typography
+            className={classes.title}
+            gutterBottom
+            variant="h5"
+            component="h2"
+          >
+            {post.title}
+          </Typography>
           <CardContent>
-            <Typography gutterBottom veriant="h3">
-              {post.creator}
+            <Typography variant="body2" color="textSecondary" component="p">
+              {post.message}
             </Typography>
-
-            <Typography gutterBottom variant="h5">
-              {post.memory}
-            </Typography>
-            <Typography gutterBottom veriant="h4">
-              {post.title}
-            </Typography>
-
-            <Typography gutterBottom veriant="h5">
-              {post.tags}
-            </Typography>
-            <CardActions>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => window.open(post.url)}
-              >
-                where was It ?
-              </Button>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => window.open(post.url2)}
-              >
-                Any Hotel or Cabin?
-              </Button>
-            </CardActions>
           </CardContent>
-        </Card>
-      ))}
-      {posts.map((post) => (
-        <Card elevation={6}>
-          <CardMedia style={{ height: 350 }} image={post.selectedFile} />
-          <CardContent>
-            <Typography gutterBottom veriant="h3">
-              {post.creator}
-            </Typography>
-
-            <Typography gutterBottom variant="h5">
-              {post.memory}
-            </Typography>
-            <Typography gutterBottom veriant="h4">
-              {post.title}
-            </Typography>
-
-            <Typography gutterBottom veriant="h5">
-              {post.tags}
-            </Typography>
-            <CardActions>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => window.open(post.url)}
-              >
-                where was It ?
-              </Button>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => window.open(post.url2)}
-              >
-                Any Hotel or Cabin?
-              </Button>
-            </CardActions>
-          </CardContent>
+          <CardActions className={classes.cardActions}>
+            <Button size="small" color="primary" onClick={""}>
+              <ThumbUpAltIcon fontSize="small" /> Like {post.likeCount}{" "}
+            </Button>
+            <Button size="small" color="primary" onClick={""}>
+              <DeleteIcon fontSize="small" /> Delete
+            </Button>
+          </CardActions>
         </Card>
       ))}
     </div>
