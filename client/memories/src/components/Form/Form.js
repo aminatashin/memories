@@ -60,16 +60,20 @@ const Form = ({ currentId, setCurrentId }) => {
     }
   };
 
-  const fetchPut = async (currentId, postData) => {
-    const res = await fetch(`http://localhost:5000/memory/${currentId}`, {
-      method: "PUT",
-      body: JSON.stringify(postData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (res.ok) {
-      alert("successfully edited the Memory!");
+  const fetchPut = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/memory/` + currentId, {
+        method: "PUT",
+        body: JSON.stringify(postData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.ok) {
+        alert("successfully edited the Memory!");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
