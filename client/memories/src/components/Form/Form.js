@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
 
-import { postAded } from "../../slice/postSlice";
 // ============================================
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -16,14 +16,74 @@ const Form = () => {
     url2: "",
     selectedFile: "",
   });
+
   // ============================================
-  const dispatch = useDispatch();
+
+  const fetchPosts = useSelector((state) =>
+    currentId ? state.PostsSlice.stock.find((p) => p._id === currentId) : null
+  );
+
+  useEffect(() => {
+    if (fetchPosts) {
+      setPostData(fetchPosts);
+    }
+  }, [fetchPosts]);
+
   const classes = useStyles();
   // ============================================
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postAded(postData));
-    fetchPost();
+    if (currentId) {
+      fetchPut();
+    } else {
+      fetchPost();
+    }
+
+    clear();
+  };
+  // ============================================
+  // const endpoint = currentId
+  //   ? "http://localhost:5000/memory" + currentId
+  //   : "http://localhost:5000/memory";
+  // const method = currentId ? "PUT" : "POST";
+  // ============================================
+  const fetchPost = async () => {
+    const res = await fetch(`http://localhost:5000/memory`, {
+      method: "POST",
+      body: JSON.stringify(postData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      alert("successfully added the Beautiful Memory!");
+    }
+  };
+
+  const fetchPut = async (currentId, postData) => {
+    const res = await fetch(`http://localhost:5000/memory/${currentId}`, {
+      method: "PUT",
+      body: JSON.stringify(postData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      alert("successfully edited the Memory!");
+    }
+  };
+
+  // ============================================
+
+  const canSubmit =
+    Boolean(postData.creator) &&
+    Boolean(postData.title) &&
+    Boolean(postData.memory) &&
+    Boolean(postData.tags) &&
+    Boolean(postData.selectedFile);
+  // ============================================
+  const clear = () => {
+    setPostData(null);
     setPostData({
       creator: "",
       title: "",
@@ -35,26 +95,6 @@ const Form = () => {
     });
   };
   // ============================================
-  const fetchPost = async () => {
-    const res = await fetch("http://localhost:5000/memory", {
-      method: "post",
-      body: JSON.stringify(postData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (res.ok) {
-      alert("successfully added the Beautiful Memory!");
-    }
-  };
-  // ============================================
-  const canSubmit =
-    Boolean(postData.creator) &&
-    Boolean(postData.title) &&
-    Boolean(postData.memory) &&
-    Boolean(postData.tags) &&
-    Boolean(postData.selectedFile);
-  // ============================================
   return (
     <Paper className={classes.paper}>
       <form
@@ -63,7 +103,9 @@ const Form = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Create A MEMORY!</Typography>
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Create"} A MEMORY!
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -135,6 +177,15 @@ const Form = () => {
           disabled={!canSubmit}
         >
           Submit
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={clear}
+          fullWidth
+        >
+          Clear
         </Button>
       </form>
     </Paper>

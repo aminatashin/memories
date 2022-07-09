@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+const Url = "http://localhost:5000/memory";
 export const getPosts = createAsyncThunk(
   "PostsSlice/getPosts",
-  async (url, thunkAPI) => {
+  async (Url, thunkAPI) => {
     try {
-      const res = await fetch(url);
+      const res = await fetch(Url);
       if (res.ok) {
         const data = await res.json();
         return data;
