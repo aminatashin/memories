@@ -11,7 +11,7 @@ function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getPosts("http://localhost:5000/memory"));
+    dispatch(getPosts());
   }, [currentId, dispatch]);
   return (
     <Container maxWidth="lg">
@@ -30,7 +30,7 @@ function App() {
             spacing={3}
           >
             <Grid item xs={12} sm={7}>
-              <Posts setCurrentId={setCurrentId} />
+              <Posts currentId={currentId} setCurrentId={setCurrentId} />
             </Grid>
             <Grid item xs={12} sm={4}>
               <Form currentId={currentId} setCurrentId={setCurrentId} />

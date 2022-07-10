@@ -60,9 +60,35 @@ memoryRouter.put("/:id", async (req, res, next) => {
 });
 
 // ======================================
-memoryRouter.delete("/:id", async (req, res, next) => {
-  const userDelete = await memoryModel.findByIdAndDelete(req.params.id);
-  res.send(userDelete);
+memoryRouter.delete("/delete/:id", async (req, res, next) => {
+  try {
+    const userDelete = await memoryModel.findByIdAndDelete(req.params.id);
+
+    res.json(userDelete);
+  } catch (error) {
+    console.log(error);
+  }
+});
+// ======================================
+memoryRouter.put("/like/:id", async (req, res, next) => {
+  try {
+    const { id: _id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(_id))
+      return res.status(404).send(`No post with id`);
+    const post = await memoryModel.findById(_id);
+
+    const modify = await memoryModel.findByIdAndUpdate(
+      _id,
+      { likeCount: post.likeCount + 1 },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.json(modify);
+  } catch (error) {
+    console.log(error);
+  }
 });
 // ======================================
 export default memoryRouter;

@@ -1,21 +1,78 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // ===============================================
-export const addFetchPost = createAsyncThunk("posts/addFetchPost", async () => {
-  const res = await fetch("http://localhost:5000/memory");
+export const removePost = createAsyncThunk(
+  "posts/removePost",
+  async (initialState) => {
+    const id = initialState;
+    const res = await fetch(`http://localhost:5000/memory/delete/` + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      return initialState;
+    } else {
+      console.log(Error);
+    }
+  }
+);
+const postData = {
+  creator: "",
+  title: "",
+  memory: "",
+  tags: "",
+  url: "",
+  url2: "",
+  selectedFile: "",
+  likeCount: null,
+};
+export const like = createAsyncThunk("posts/like", async (initialState) => {
+  const id = initialState;
+  const res = await fetch(`http://localhost:5000/memory/like/` + id, {
+    method: "PUT",
+    // body: JSON.stringify(postData.likeCount),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   if (res.ok) {
-    const data = await res.json();
-    return data;
+    return postData;
+  } else {
+    console.log(Error);
   }
 });
 
 const postSlice = createSlice({
   name: "posts",
-  initialState: [],
-  reducers: {
-    postAded: (state, action) => {
-      state.push(action.payload);
+  initialState: {
+    postData,
+  },
+  reducers: {},
+  extraReducers: {
+    [removePost.pending]: (state, action) => {
+      return {
+        ...state,
+      };
+    },
+    [removePost.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        state: state.filter((p, i) => i !== action.payload),
+      };
+    },
+    [removePost.rejected]: (state, action) => {
+      return {
+        ...state,
+      };
+    },
+    [like.fulfilled]: (state, action) => {
+      return {
+        postData: state.postData.map((p, i) =>
+          i === action.payload ? action.payload : p
+        ),
+      };
     },
   },
 });
 export default postSlice.reducer;
-export const { postAded } = postSlice.actions;

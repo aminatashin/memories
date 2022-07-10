@@ -4,7 +4,7 @@ export const getPosts = createAsyncThunk(
   "PostsSlice/getPosts",
   async (Url, thunkAPI) => {
     try {
-      const res = await fetch(Url);
+      const res = await fetch("http://localhost:5000/memory");
       if (res.ok) {
         const data = await res.json();
         return data;
@@ -19,9 +19,17 @@ export const getPosts = createAsyncThunk(
 const getPostsSlice = createSlice({
   name: "PostsSlice",
   initialState: {
-    stock: [],
+    stock: {},
   },
-  reducer: {},
+  reducer: {
+    postRemove: (state, action) => {
+      return {
+        ...state,
+        stock: state.stock.find((p, i) => i !== action.payload),
+      };
+    },
+  },
+
   extraReducers: {
     [getPosts.pending]: (state, action) => {
       return {
@@ -42,4 +50,4 @@ const getPostsSlice = createSlice({
   },
 });
 export default getPostsSlice.reducer;
-export const { addPosts } = getPostsSlice.actions;
+export const { postRemove } = getPostsSlice.actions;
