@@ -4,6 +4,7 @@ import mongosse from "mongoose";
 import listEndpoints from "express-list-endpoints";
 import memoryRouter from "./memories/router.js";
 import bodyParser from "body-parser";
+import userRouter from "./user/user.js";
 // ==================================
 const server = express();
 const port = process.env.PORT || 5000;
@@ -14,6 +15,7 @@ server.use(express.json());
 server.use(cors());
 // =====================================
 server.use("/memory", memoryRouter);
+server.use("/usermemory", userRouter);
 // =====================================
 mongosse.connect(process.env.MONGO_DB, {
   useNewUrlParser: true,

@@ -7,6 +7,7 @@ import {
   Container,
   Avatar,
 } from "@material-ui/core";
+import { Link, useNavigate } from "react-router-dom";
 import Icon from "./Icon";
 import useStyles from "./styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -22,9 +23,15 @@ const initialState = {
 const Auth = () => {
   const [showpassword, setShowpassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const classes = useStyles();
-
+  const navigate = useNavigate();
   const state = false;
   // const googleSuccess = (res) => {
   //   console.log(res);
@@ -40,10 +47,48 @@ const Auth = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isSignup) {
+      signupUser();
+    } else {
+      signinUser();
+    }
     console.log(formData);
   };
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  // ============================================
+  const signupUser = async () => {
+    const res = await fetch(`http://localhost:5000/usermemory/signup`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      alert("successfully Signed Up!");
+      switchMood();
+    }
+  };
+  // ============================================
+  const signinUser = async () => {
+    const res = await fetch(`http://localhost:5000/usermemory/signin`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      localStorage.setItem("jwtToken", data.token);
+      alert("Enjoy Your Memory!");
+      navigate("/");
+    } else {
+      console.log("something went Wrong");
+    }
+  };
+  // ============================================
 
   return (
     <Container component="main" maxWidth="xs">

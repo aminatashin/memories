@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import Wood from "../../assesments/memory.png";
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
-const Navbar = () => {
+const Navbar = ({ currentId, setCurrentId }) => {
+  const [user, setuser] = useState("");
   const classes = useStyles();
-  const user = null;
+  useEffect(() => {
+    const token = user.jwtToken;
+    if (token) {
+      getUser();
+    }
+  }, []);
+  const getUser = async () => {
+    const res = await fetch(
+      `http://localhost:5000/usermemory/signup` + currentId
+    );
+    if (res.ok) {
+      const data = res.json();
+      console.log(data);
+      setuser(data);
+    }
+  };
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
@@ -17,26 +33,28 @@ const Navbar = () => {
       </div>
       <Toolbar className={classes.toolbar}>
         {user ? (
-          <div className={classes.profile}>
-            <Avatar
-              className={classes.purple}
-              alt={user.result.name}
-              src={user.result.imageurl}
-            >
-              {user.result.name.charAt(0)}
-            </Avatar>
-            <Typography className={classes.username} veriant="h6">
-              {user.result.name}
-            </Typography>
-            <Button
-              veriant="contained"
-              className={classes.logout}
-              color="secondary"
-              onClick={""}
-            >
-              LOG OUT
-            </Button>
-          </div>
+          user.map((user) => (
+            <div className={classes.profile}>
+              <Avatar
+                className={classes.purple}
+                alt={user.firstName}
+                src={user.imageurl}
+              >
+                {user.name.charAt(0)}
+              </Avatar>
+              <Typography className={classes.username} veriant="h6">
+                {user.firstName}
+              </Typography>
+              <Button
+                veriant="contained"
+                className={classes.logout}
+                color="secondary"
+                onClick={""}
+              >
+                LOG OUT
+              </Button>
+            </div>
+          ))
         ) : (
           <Link to="/auth">
             <Button veriant="contained" color="primary">

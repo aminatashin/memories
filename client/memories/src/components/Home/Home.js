@@ -6,8 +6,7 @@ import Form from "../Form/Form";
 import useStyles from "./styles";
 import { getPosts } from "../../slice/fetchSlice";
 
-const Home = () => {
-  const [currentId, setCurrentId] = useState(null);
+const Home = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
