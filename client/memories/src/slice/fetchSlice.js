@@ -16,10 +16,32 @@ export const getPosts = createAsyncThunk(
     }
   }
 );
+export const getUser = createAsyncThunk(
+  "PostsSlice/getUser",
+  async (Url, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:5000/usermemory/signup/me`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
+      if (res.ok) {
+        const user = await res.json();
+        return user;
+      } else {
+        return thunkAPI.rejectWithValue;
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue;
+    }
+  }
+);
 const getPostsSlice = createSlice({
   name: "PostsSlice",
   initialState: {
     stock: {},
+    user: {},
   },
   reducer: {
     postRemove: (state, action) => {
@@ -47,7 +69,12 @@ const getPostsSlice = createSlice({
         ...state,
       };
     },
+    [getUser.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        user: action.payload,
+      };
+    },
   },
 });
 export default getPostsSlice.reducer;
-export const { postRemove } = getPostsSlice.actions;

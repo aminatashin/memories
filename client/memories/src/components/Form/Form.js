@@ -8,7 +8,6 @@ import FileBase64 from "react-file-base64";
 // ============================================
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     memory: "",
     tags: "",
@@ -89,7 +88,6 @@ const Form = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setPostData(null);
     setPostData({
-      creator: "",
       title: "",
       memory: "",
       tags: "",
@@ -110,7 +108,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? "Editing" : "Create"} A MEMORY!
         </Typography>
-        <TextField
+        {/* <TextField
           name="creator"
           variant="outlined"
           label="creator"
@@ -119,7 +117,7 @@ const Form = ({ currentId, setCurrentId }) => {
           onChange={(e) =>
             setPostData({ ...postData, creator: e.target.value })
           }
-        />
+        /> */}
         <TextField
           name="title"
           variant="outlined"

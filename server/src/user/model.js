@@ -22,11 +22,13 @@ userSchema.pre("save", async function (next) {
 });
 // =============================
 userSchema.methods.toJSON = function () {
-  const user = this;
-  const newUser = user.toObject();
-  delete user.password;
-  delete user.__v;
-  return user;
+  const userDocument = this;
+  const userObject = userDocument.toObject();
+
+  delete userObject.password;
+  delete userObject.__v;
+
+  return userObject;
 };
 // =============================
 userSchema.static("verifyUser", async function (email, plainPW) {

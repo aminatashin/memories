@@ -5,6 +5,7 @@ const memorySchema = new Schema({
   title: { type: String },
   memory: { type: String },
   creator: { type: String },
+  creator: { type: String },
   tags: [String],
   selectedFile: { type: String },
   likeCount: {

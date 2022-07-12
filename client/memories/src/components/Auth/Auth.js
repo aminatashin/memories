@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Typography,
@@ -13,16 +13,11 @@ import useStyles from "./styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import { GoogleLogin } from "react-google-login";
-const initialState = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
+// ===============================================
 const Auth = () => {
   const [showpassword, setShowpassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -30,9 +25,16 @@ const Auth = () => {
     password: "",
     confirmPassword: "",
   });
+
   const classes = useStyles();
   const navigate = useNavigate();
-  const state = false;
+  // useEffect(() => {
+  //   if (localStorage.getItem("jwtToken")) {
+  //   } else {
+  //     alert("email&password not found!");
+  //   }
+  // }, []);
+
   // const googleSuccess = (res) => {
   //   console.log(res);
   // };
@@ -43,7 +45,7 @@ const Auth = () => {
   };
   const switchMood = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
-    handleShowPassword(false);
+    setShowpassword(false);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +54,6 @@ const Auth = () => {
     } else {
       signinUser();
     }
-    console.log(formData);
   };
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -82,6 +83,7 @@ const Auth = () => {
     if (res.ok) {
       const data = await res.json();
       localStorage.setItem("jwtToken", data.token);
+      console.log(data.token);
       alert("Enjoy Your Memory!");
       navigate("/");
     } else {

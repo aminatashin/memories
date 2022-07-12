@@ -16,7 +16,7 @@ export const generateToken = (payload) =>
 export const verifyToken = (token) =>
   new Promise((resolve, reject) =>
     jwt.verify(token, process.env.SECRET, (err, payload) => {
-      if (err) reject(err);
+      if (err) reject(`verify token is the problem${err}`);
       else resolve(payload);
     })
   );
