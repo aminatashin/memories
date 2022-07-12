@@ -3,16 +3,14 @@ import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import Wood from "../../assesments/memory.png";
 import useStyles from "./styles";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "../../slice/fetchSlice";
+
 // ===============================================
 const Navbar = () => {
-  // const [user, setcurrentUser] = useState("");
+  const [user, setcurrentUser] = useState("");
 
   const classes = useStyles();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.PostsSlice.user);
+
   // ===============================================
   // useEffect(() => {
   //   if (!localStorage.getItem("jwtToken")) {
@@ -21,7 +19,7 @@ const Navbar = () => {
   //   }
   // }, []);
   useEffect(() => {
-    dispatch(getUser());
+    getUser();
   }, []);
   // ===============================================
   const handleLogOut = () => {
@@ -29,21 +27,21 @@ const Navbar = () => {
     navigate("/");
   };
   // ===============================================
-  // const getUser = async () => {
-  //   const res = await fetch(`http://localhost:5000/usermemory/signup/me`, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-  //     },
-  //   });
-  //   if (res.ok) {
-  //     const data = await res.json();
-  //     setcurrentUser(data);
-  //     console.log(data);
-  //   } else {
-  //     console.log("getting user in navbar error");
-  //   }
-  // };
+  const getUser = async () => {
+    const res = await fetch(`http://localhost:5000/usermemory/signup/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setcurrentUser(data);
+      console.log(data);
+    } else {
+      console.log("getting user in navbar error");
+    }
+  };
   // ===============================================
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
