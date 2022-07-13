@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
+import {
+  AppBar,
+  Avatar,
+  Button,
+  Toolbar,
+  Typography,
+  Paper,
+} from "@material-ui/core";
 import Wood from "../../assesments/memory.png";
 import useStyles from "./styles";
+// import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 // ===============================================
@@ -10,7 +18,7 @@ const Navbar = () => {
 
   const classes = useStyles();
   const navigate = useNavigate();
-
+  // const user = useSelector((state) => state.PostsSlice.user);
   // ===============================================
   // useEffect(() => {
   //   if (!localStorage.getItem("jwtToken")) {
@@ -43,6 +51,7 @@ const Navbar = () => {
     }
   };
   // ===============================================
+
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
@@ -60,7 +69,7 @@ const Navbar = () => {
               alt={user.firstName}
               src={user.imageUrl}
             >
-              {user.firstName.charAt(0)}
+              {/* {user.firstName.charAt(0)} */}
             </Avatar>
             <Typography className={classes.userName} variant="h6">
               {user.firstName}

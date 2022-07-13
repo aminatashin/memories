@@ -18,7 +18,7 @@ export const getPosts = createAsyncThunk(
 );
 export const getUser = createAsyncThunk(
   "PostsSlice/getUser",
-  async (Url, thunkAPI) => {
+  async (thunkAPI) => {
     try {
       const res = await fetch(`http://localhost:5000/usermemory/signup/me`, {
         headers: {

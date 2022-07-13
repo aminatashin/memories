@@ -21,7 +21,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const fetchPosts = useSelector((state) =>
     currentId ? state.PostsSlice.stock.find((p) => p._id === currentId) : null
   );
-
+  const user = useSelector((state) => state.PostsSlice.user);
   useEffect(() => {
     if (fetchPosts) {
       setPostData(fetchPosts);
@@ -41,15 +41,11 @@ const Form = ({ currentId, setCurrentId }) => {
     clear();
   };
   // ============================================
-  // const endpoint = currentId
-  //   ? "http://localhost:5000/memory" + currentId
-  //   : "http://localhost:5000/memory";
-  // const method = currentId ? "PUT" : "POST";
-  // ============================================
+
   const fetchPost = async () => {
     const res = await fetch(`http://localhost:5000/memory`, {
       method: "POST",
-      body: JSON.stringify(postData),
+      body: JSON.stringify({ ...postData, name: user.firstName }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -63,9 +59,10 @@ const Form = ({ currentId, setCurrentId }) => {
     try {
       const res = await fetch(`http://localhost:5000/memory/` + currentId, {
         method: "PUT",
-        body: JSON.stringify(postData),
+        body: JSON.stringify({ ...postData, name: user.firstName }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
       if (res.ok) {
@@ -79,7 +76,6 @@ const Form = ({ currentId, setCurrentId }) => {
   // ============================================
 
   const canSubmit =
-    Boolean(postData.creator) &&
     Boolean(postData.title) &&
     Boolean(postData.memory) &&
     Boolean(postData.tags) &&

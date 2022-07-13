@@ -8,6 +8,7 @@ export const removePost = createAsyncThunk(
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
       },
     });
     if (res.ok) {
@@ -34,6 +35,7 @@ export const like = createAsyncThunk("posts/like", async (initialState) => {
     // body: JSON.stringify(postData.likeCount),
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
     },
   });
   if (res.ok) {

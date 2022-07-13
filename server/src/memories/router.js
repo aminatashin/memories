@@ -7,14 +7,15 @@ const memoryRouter = express.Router();
 // =================================
 memoryRouter.post("/", async (req, res, next) => {
   try {
+    const { id: _id } = req.params;
     const memory = req.body;
     const newMemory = new memoryModel({
       ...memory,
-      creator: req.user._id,
+      creator: _id,
       createdAt: new Date().toISOString(),
     });
-    const { _id } = await newMemory.save();
-    res.send({ _id });
+    await newMemory.save();
+    res.send(newMemory);
   } catch (error) {
     next(error);
     console.log(error);
@@ -67,7 +68,8 @@ memoryRouter.put("/:id", tokenAuth, async (req, res, next) => {
 // ======================================
 memoryRouter.delete("/delete/:id", tokenAuth, async (req, res, next) => {
   try {
-    const userDelete = await memoryModel.findByIdAndDelete(req.params.id);
+    const { id: _id } = req.params;
+    const userDelete = await memoryModel.findByIdAndDelete(_id);
 
     res.json(userDelete);
   } catch (error) {
@@ -76,24 +78,53 @@ memoryRouter.delete("/delete/:id", tokenAuth, async (req, res, next) => {
 });
 // ======================================
 memoryRouter.put("/like/:id", tokenAuth, async (req, res, next) => {
-  try {
-    const { id: _id } = req.params;
+  // try {
+  //   const { id: _id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(_id))
-      return res.status(404).send(`No post with id`);
-    const post = await memoryModel.findById(_id);
+  //   if (!mongoose.Types.ObjectId.isValid(_id))
+  //     return res.status(404).send(`No post with id`);
+  //   const post = await memoryModel.findById(_id);
 
-    const modify = await memoryModel.findByIdAndUpdate(
+  //   const index = post.likes.findIndex((id) => id === String(_id));
+
+  //   if (index === -1) {
+  //     post.likes.push(_id);
+  //   } else {
+  //     post.likes = post.likes.filter((id) => id !== String(_id));
+  //   }
+  //   const updatedPost = await memoryModel.findByIdAndUpdate(_id, post, {
+  //     new: true,
+  //   });
+  //   res.status(200).json(updatedPost);
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  const { id: _id } = req.params;
+
+  if (!_id) {
+    return res.json({ message: "Unauthenticated" });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(_id))
+    return res.status(404).send(`No post with id: ${_id}`);
+
+  const post = await memoryModel.findById(_id);
+
+  const index = post.likes.findIndex((id) => id === String(_id));
+
+  if (index === -1) {
+    const updatedPost = await memoryModel.findByIdAndUpdate(
       _id,
-      { likeCount: post.likeCount + 1 },
+      {
+        $push: { likes: _id },
+      },
       {
         new: true,
-        runValidators: true,
       }
     );
-    res.json(modify);
-  } catch (error) {
-    console.log(error);
+    res.status(200).json(updatedPost);
+  } else {
+    post.likes = post.likes.filter((id) => id !== String(_id));
   }
 });
 // ======================================

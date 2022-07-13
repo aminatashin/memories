@@ -5,6 +5,7 @@ import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import useStyles from "./styles";
 import { getPosts } from "../../slice/fetchSlice";
+import { getUser } from "../../slice/fetchSlice";
 
 const Home = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
@@ -12,6 +13,9 @@ const Home = ({ currentId, setCurrentId }) => {
   useEffect(() => {
     dispatch(getPosts());
   }, [currentId, dispatch]);
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
   return (
     <>
       <Grow in>
