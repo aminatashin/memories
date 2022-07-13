@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
+import { getPosts } from "../../slice/fetchSlice";
 
 // ============================================
 const Form = ({ currentId, setCurrentId }) => {
@@ -22,6 +23,8 @@ const Form = ({ currentId, setCurrentId }) => {
     currentId ? state.PostsSlice.stock.find((p) => p._id === currentId) : null
   );
   const user = useSelector((state) => state.PostsSlice.user);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     if (fetchPosts) {
       setPostData(fetchPosts);
@@ -48,10 +51,13 @@ const Form = ({ currentId, setCurrentId }) => {
       body: JSON.stringify({ ...postData, name: user.firstName }),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
       },
     });
     if (res.ok) {
       alert("successfully added the Beautiful Memory!");
+      // here you should re-fetch the memories!
+      dispatch(getPosts());
     }
   };
 
@@ -67,6 +73,7 @@ const Form = ({ currentId, setCurrentId }) => {
       });
       if (res.ok) {
         alert("successfully edited the Memory!");
+        dispatch(getPosts());
       }
     } catch (error) {
       console.log(error);
@@ -104,16 +111,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? "Editing" : "Create"} A MEMORY!
         </Typography>
-        {/* <TextField
-          name="creator"
-          variant="outlined"
-          label="creator"
-          fullWidth
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        /> */}
+
         <TextField
           name="title"
           variant="outlined"

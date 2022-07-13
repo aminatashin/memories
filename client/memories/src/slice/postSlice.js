@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { getPosts } from "./fetchSlice";
 // ===============================================
+
 export const removePost = createAsyncThunk(
   "posts/removePost",
   async (initialState) => {
@@ -12,12 +15,15 @@ export const removePost = createAsyncThunk(
       },
     });
     if (res.ok) {
+      useDispatch(getPosts());
+
       return initialState;
     } else {
       console.log(Error);
     }
   }
 );
+
 const postData = {
   creator: "",
   title: "",
@@ -39,6 +45,8 @@ export const like = createAsyncThunk("posts/like", async (initialState) => {
     },
   });
   if (res.ok) {
+    const dispatch = useDispatch();
+    dispatch(getPosts());
     return postData;
   } else {
     console.log(Error);

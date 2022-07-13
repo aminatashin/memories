@@ -9,12 +9,14 @@ import {
 } from "@material-ui/core";
 import Wood from "../../assesments/memory.png";
 import useStyles from "./styles";
-// import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { getPosts } from "../../slice/fetchSlice";
 
 // ===============================================
 const Navbar = () => {
   const [user, setcurrentUser] = useState("");
+  const dispatch = useDispatch();
 
   const classes = useStyles();
   const navigate = useNavigate();
@@ -31,7 +33,9 @@ const Navbar = () => {
   }, []);
   // ===============================================
   const handleLogOut = () => {
+    dispatch(getPosts());
     localStorage.clear();
+
     navigate("/");
   };
   // ===============================================
@@ -56,7 +60,7 @@ const Navbar = () => {
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
         <Typography className={classes.heading} variant="h3" align="center">
-          Memories
+          <Link to={"/"}> Memories</Link>
         </Typography>
 
         <img className={classes.image} src={Wood} alt="icon" height="60" />
