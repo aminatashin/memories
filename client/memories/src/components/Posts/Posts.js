@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Grid, CircularProgress } from "@material-ui/core";
 
 import Post from "../Posts/Post/Post";
-const Posts = ({ setCurrentId, currentId }) => {
+const Posts = ({ setCurrentId, currentId, search }) => {
   // ==================================================
 
   // ==================================================
@@ -21,11 +21,17 @@ const Posts = ({ setCurrentId, currentId }) => {
       alignItems="stretch"
       spacing={3}
     >
-      {fetchPosts.map((post) => (
-        <Grid item xs={12} sm={6} md={6}>
-          <Post post={post} currentId={currentId} setCurrentId={setCurrentId} />
-        </Grid>
-      ))}
+      {fetchPosts
+        .filter((p) => p.title.includes(search))
+        .map((post) => (
+          <Grid item xs={12} sm={12} md={6} lg={3}>
+            <Post
+              post={post}
+              currentId={currentId}
+              setCurrentId={setCurrentId}
+            />
+          </Grid>
+        ))}
     </Grid>
   );
 };

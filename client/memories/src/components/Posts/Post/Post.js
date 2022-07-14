@@ -19,10 +19,7 @@ import { removePost, like } from "../../../slice/postSlice";
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.PostsSlice.user);
-  useEffect(() => {
-    console.log(user._id);
-    console.log(post);
-  }, []);
+
   // ==================================================
   const dispatch = useDispatch();
   // ==================================================
@@ -53,7 +50,7 @@ const Post = ({ post, setCurrentId }) => {
   };
   // ==================================================
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} raised elevation={6}>
       <CardMedia
         className={classes.media}
         image={

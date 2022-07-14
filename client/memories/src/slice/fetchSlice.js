@@ -16,6 +16,24 @@ export const getPosts = createAsyncThunk(
     }
   }
 );
+export const getPostsSearch = createAsyncThunk(
+  "PostsSlice/getPostsSearch",
+  async (searchQuery, thunkAPI) => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/memory/search?searchQuery=${searchQuery.search}`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue;
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue;
+    }
+  }
+);
 export const getUser = createAsyncThunk(
   "PostsSlice/getUser",
   async (thunkAPI) => {
@@ -42,6 +60,7 @@ const getPostsSlice = createSlice({
   initialState: {
     stock: {},
     user: {},
+    search: {},
   },
   reducer: {
     postRemove: (state, action) => {
@@ -73,6 +92,12 @@ const getPostsSlice = createSlice({
       return {
         ...state,
         user: action.payload,
+      };
+    },
+    [getPostsSearch.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        search: action.payload,
       };
     },
   },

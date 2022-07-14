@@ -7,7 +7,8 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-import Wood from "../../assesments/memory.png";
+import memory from "../../assesments/memoriesLogo.png";
+import memoriesText from "../../assesments/memoriesText.png";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -33,9 +34,8 @@ const Navbar = () => {
   }, []);
   // ===============================================
   const handleLogOut = () => {
-    dispatch(getPosts());
     localStorage.clear();
-
+    dispatch(getPosts());
     navigate("/");
   };
   // ===============================================
@@ -49,7 +49,6 @@ const Navbar = () => {
     if (res.ok) {
       const data = await res.json();
       setcurrentUser(data);
-      console.log(data);
     } else {
       console.log("getting user in navbar error");
     }
@@ -59,11 +58,18 @@ const Navbar = () => {
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
-        <Typography className={classes.heading} variant="h3" align="center">
-          <Link to={"/"}> Memories</Link>
-        </Typography>
+        <Link to={"/"}>
+          {" "}
+          <img
+            component={Link}
+            to="/"
+            src={memoriesText}
+            alt="icon"
+            height="45px"
+          />
+        </Link>
 
-        <img className={classes.image} src={Wood} alt="icon" height="60" />
+        <img className={classes.image} src={memory} alt="icon" height="40px" />
       </div>
       <Toolbar className={classes.toolbar}>
         {user ? (
