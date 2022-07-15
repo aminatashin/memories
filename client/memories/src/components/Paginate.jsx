@@ -7,9 +7,7 @@ import { getPosts } from "../slice/fetchSlice";
 import useStyles from "./styles";
 
 const Paginate = ({ page }) => {
-  const { numberOfPages } = useSelector(
-    (state) => state.PostsSlice.numberOfPages
-  );
+  const numberOfPages = useSelector((state) => state.PostsSlice.numberOfPages);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

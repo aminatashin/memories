@@ -7,11 +7,12 @@ import {
   Typography,
   Paper,
 } from "@material-ui/core";
-import memory from "../../assesments/memoriesLogo.png";
+// import memory from "../../assesments/memoriesLogo.png";
 import memoriesText from "../../assesments/memoriesText.png";
+import camera2 from "../../assesments/camera2.png";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getPosts } from "../../slice/fetchSlice";
 
 // ===============================================
@@ -21,6 +22,7 @@ const Navbar = () => {
 
   const classes = useStyles();
   const navigate = useNavigate();
+  const location = useLocation();
   // const user = useSelector((state) => state.PostsSlice.user);
   // ===============================================
   // useEffect(() => {
@@ -30,13 +32,19 @@ const Navbar = () => {
   //   }
   // }, []);
   useEffect(() => {
-    getUser();
-  }, []);
+    console.log("are we here");
+    if (localStorage.getItem("jwtToken")) {
+      getUser();
+    } else {
+      setcurrentUser("");
+    }
+  }, [location.pathname]);
   // ===============================================
   const handleLogOut = () => {
     localStorage.clear();
-    dispatch(getPosts());
-    navigate("/");
+    setcurrentUser("");
+    //dispatch(getPosts());
+    navigate("/auth");
   };
   // ===============================================
   const getUser = async () => {
@@ -69,7 +77,7 @@ const Navbar = () => {
           />
         </Link>
 
-        <img className={classes.image} src={memory} alt="icon" height="40px" />
+        <img className={classes.image} src={camera2} alt="icon" height="40px" />
       </div>
       <Toolbar className={classes.toolbar}>
         {user ? (
