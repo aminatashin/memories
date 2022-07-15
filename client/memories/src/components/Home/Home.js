@@ -31,9 +31,7 @@ const Home = ({ currentId, setCurrentId }) => {
   const searchQuery = query.get("searchQuery");
   const querySearch = useSelector((state) => state.PostsSlice.search);
   // =========================================
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
+
   // =========================================
   useEffect(() => {
     dispatch(getUser());
@@ -99,7 +97,7 @@ const Home = ({ currentId, setCurrentId }) => {
               </AppBar>
               <Form currentId={currentId} setCurrentId={setCurrentId} />
               <Paper elevation={6}>
-                <Paginate />
+                <Paginate page={page} />
               </Paper>
             </Grid>
           </Grid>

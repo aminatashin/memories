@@ -11,6 +11,7 @@ const Posts = ({ setCurrentId, currentId, search }) => {
 
   const fetchPosts = useSelector((state) => state.PostsSlice.stock);
   const classes = useStyles();
+  console.log(fetchPosts);
   // ==================================================
   return !fetchPosts.length ? (
     <CircularProgress />

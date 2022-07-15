@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const Url = "http://localhost:5000/memory";
 export const getPosts = createAsyncThunk(
   "PostsSlice/getPosts",
-  async (Url, thunkAPI) => {
+  async (page, thunkAPI) => {
     try {
-      const res = await fetch("http://localhost:5000/memory");
+      const res = await fetch(`http://localhost:5000/memory?page=${page}`);
       if (res.ok) {
         const data = await res.json();
         return data;
@@ -58,9 +58,11 @@ export const getUser = createAsyncThunk(
 const getPostsSlice = createSlice({
   name: "PostsSlice",
   initialState: {
-    stock: {},
+    stock: [],
     user: {},
     search: {},
+    currentPage: {},
+    numberOfPages: {},
   },
   reducer: {
     postRemove: (state, action) => {
@@ -80,7 +82,9 @@ const getPostsSlice = createSlice({
     [getPosts.fulfilled]: (state, action) => {
       return {
         ...state,
-        stock: action.payload,
+        stock: action.payload.data,
+        currentPage: action.payload.currentPage,
+        numberOfPages: action.payload.numberOfPages,
       };
     },
     [getPosts.rejected]: (state, action) => {
