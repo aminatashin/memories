@@ -2,11 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // ================================================
 const Url = "http://localhost:5000/memory";
-export const getPostId = createAsyncThunk(
-  "PostsSlice/getPostId",
-  async (id, thunkAPI) => {
+
+export const getPosts = createAsyncThunk(
+  "PostsSlice/getPosts",
+  async (page, thunkAPI) => {
     try {
-      const res = await fetch(`http://localhost:5000/memory/post/${id}`);
+      const res = await fetch(`http://localhost:5000/memory?page=${page}`);
       if (res.ok) {
         const data = await res.json();
 
@@ -19,11 +20,11 @@ export const getPostId = createAsyncThunk(
     }
   }
 );
-export const getPosts = createAsyncThunk(
-  "PostsSlice/getPosts",
-  async (page, thunkAPI) => {
+export const getPostId = createAsyncThunk(
+  "PostsSlice/getPostId",
+  async (id, thunkAPI) => {
     try {
-      const res = await fetch(`http://localhost:5000/memory?page=${page}`);
+      const res = await fetch(`http://localhost:5000/memory/` + id);
       if (res.ok) {
         const data = await res.json();
 

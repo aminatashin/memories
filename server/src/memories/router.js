@@ -48,22 +48,24 @@ memoryRouter.get("/", async (req, res, next) => {
   }
 });
 // =================================
-memoryRouter.get("/search", async (req, res, next) => {
-  const { searchQuery } = req.query;
+memoryRouter.get("/:id", async (req, res, next) => {
   try {
-    const title = new RegExp(searchQuery, "i");
-    const getMemory = await memoryModel.find({ title: title });
+    const { id: _id } = req.params;
+    const getMemory = await memoryModel.findById(_id);
+
     res.json(getMemory);
   } catch (error) {
     next(error);
     console.log(error);
   }
 });
+
 // ======================================
-memoryRouter.get("/:id", async (req, res, next) => {
+memoryRouter.get("/search", async (req, res, next) => {
+  const { searchQuery } = req.query;
   try {
-    const { id: _id } = req.params;
-    const getMemory = await memoryModel.findById(_id);
+    const title = new RegExp(searchQuery, "i");
+    const getMemory = await memoryModel.find({ title: title });
     res.json(getMemory);
   } catch (error) {
     next(error);

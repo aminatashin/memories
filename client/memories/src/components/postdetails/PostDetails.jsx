@@ -9,46 +9,42 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { getPostId } from "../../slice/fetchSlice";
-import CommentSection from "./CommentSection";
+import { getPostId, getPostsSearch } from "../../slice/fetchSlice";
+
 import useStyles from "./styles";
-const PostDetails = () => {
-  const { post, posts, isLoading } = useSelector((state) => state.posts);
+const PostDetails = ({ search }) => {
+  const postId = useSelector((state) => state.PostsSlice.postId);
+  const fetchPosts = useSelector((state) => state.PostsSlice.stock);
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const classes = useStyles();
-  const { id } = useParams();
+  const { id: _id } = useParams();
 
   useEffect(() => {
-    dispatch(getPostId(id));
-  }, [id]);
+    dispatch(getPostId(_id));
+    console.log(postId.likes);
+  }, [_id]);
 
   // useEffect(() => {
-  //   if (post) {
-  //     dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',') }));
+  //   if (postId) {
+  //     dispatch(getPostsSearch({ search: postId.title }));
   //   }
-  // }, [post]);
+  // }, [postId]);
 
-  if (!post) return null;
+  if (!postId) return null;
 
-  const openPost = (_id) => navigator.push(`/posts/${_id}`);
+  const openPost = (_id) => navigate(`/posts/${_id}`);
 
-  if (isLoading) {
-    return (
-      <Paper elevation={6} className={classes.loadingPaper}>
-        <CircularProgress size="7em" />
-      </Paper>
-    );
-  }
+  const recommendedPosts = fetchPosts.filter(({ _id }) => _id === postId.likes);
 
-  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
-
-  return (
+  return !postId ? (
+    <CircularProgress />
+  ) : (
     <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
       <div className={classes.card}>
         <div className={classes.section}>
           <Typography variant="h3" component="h2">
-            {post.title}
+            {postId.title}
           </Typography>
           <Typography
             gutterBottom
@@ -56,35 +52,36 @@ const PostDetails = () => {
             color="textSecondary"
             component="h2"
           >
-            {post.tags.map((tag) => `#${tag} `)}
+            {postId.tags}
           </Typography>
           <Typography gutterBottom variant="body1" component="p">
-            {post.message}
+            {postId.memory}
           </Typography>
-          <Typography variant="h6">Created by: {post.name}</Typography>
+          <Typography variant="h6">Created by: {postId.name}</Typography>
           <Typography variant="body1">
-            {moment(post.createdAt).fromNow()}
+            {moment(postId.createdAt).fromNow()}
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
           <Typography variant="body1">
             <strong>Realtime Chat - coming soon!</strong>
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
-          <CommentSection post={post} />
+          {/* <CommentSection post={postId} /> */}
           <Divider style={{ margin: "20px 0" }} />
         </div>
         <div className={classes.imageSection}>
           <img
             className={classes.media}
             src={
-              post.selectedFile ||
+              postId.selectedFile ||
               "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
             }
-            alt={post.title}
+            alt={postId.title}
           />
         </div>
       </div>
-      {!!recommendedPosts.length && (
+
+      {recommendedPosts.length && (
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">
             You might also like:
@@ -92,7 +89,7 @@ const PostDetails = () => {
           <Divider />
           <div className={classes.recommendedPosts}>
             {recommendedPosts.map(
-              ({ title, name, message, likes, selectedFile, _id }) => (
+              ({ title, name, memory, likes, selectedFile, _id }) => (
                 <div
                   style={{ margin: "20px", cursor: "pointer" }}
                   onClick={() => openPost(_id)}
@@ -105,7 +102,7 @@ const PostDetails = () => {
                     {name}
                   </Typography>
                   <Typography gutterBottom variant="subtitle2">
-                    {message}
+                    {memory}
                   </Typography>
                   <Typography gutterBottom variant="subtitle1">
                     Likes: {likes.length}

@@ -22,7 +22,6 @@ function useQuery() {
 }
 const Home = ({ currentId, setCurrentId }) => {
   const [search, setSearch] = useState("");
-
   const classes = useStyles();
   const dispatch = useDispatch();
   const query = useQuery();
@@ -39,7 +38,7 @@ const Home = ({ currentId, setCurrentId }) => {
   // =========================================
   const searchPost = () => {
     if (search.trim()) {
-      dispatch(getPostsSearch({ search }));
+      dispatch(getPostsSearch(search));
 
       navigate(`/posts/search?searQuery=${search || "none"}`);
     } else {

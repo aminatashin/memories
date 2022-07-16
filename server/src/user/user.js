@@ -34,7 +34,7 @@ userRouter.get("/signup", tokenAuth, async (req, res, next) => {
 // ================================
 userRouter.get("/signup/me", tokenAuth, async (req, res, next) => {
   const getuser = await userModel.findById(req.user._id);
-  console.log(getuser);
+
   res.send(getuser);
 });
 // ================================

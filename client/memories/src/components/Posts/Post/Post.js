@@ -16,7 +16,7 @@ import {
   ButtonBase,
 } from "@material-ui/core";
 import { removePost, like } from "../../../slice/postSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 // ==================================================
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
@@ -56,7 +56,7 @@ const Post = ({ post, setCurrentId }) => {
   // ==================================================
   return (
     <Card className={classes.card} raised elevation={6}>
-      <ButtonBase className={classes.B} onClick={handlepostPage}>
+      <Link to={`/posts/${post._id}`}>
         <CardMedia
           className={classes.media}
           image={
@@ -65,42 +65,43 @@ const Post = ({ post, setCurrentId }) => {
           }
           title={post.title}
         />
-        <div className={classes.overlay}>
-          <Typography variant="h6">{post.name}</Typography>
-          <Typography variant="body2">
-            {moment(post.createdAt).fromNow()}
-          </Typography>
-        </div>
-        {user?._id === post.creator && (
-          <div className={classes.overlay2}>
-            <Button
-              style={{ color: "white" }}
-              size="small"
-              onClick={() => setCurrentId(post._id)}
-            >
-              <MoreHorizIcon fontSize="default" />
-            </Button>
-          </div>
-        )}
-        <div className={classes.details}>
-          <Typography variant="body2" color="textSecondary" component="h2">
-            {post.tags.map((tag) => `#${tag} `)}
-          </Typography>
-        </div>
-        <Typography
-          className={classes.title}
-          gutterBottom
-          variant="h5"
-          component="h2"
-        >
-          {post.title}
+      </Link>
+      <div className={classes.overlay}>
+        <Typography variant="h6">{post.name}</Typography>
+        <Typography variant="body2">
+          {moment(post.createdAt).fromNow()}
         </Typography>
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {post.memory}
-          </Typography>
-        </CardContent>
-      </ButtonBase>
+      </div>
+      {user?._id === post.creator && (
+        <div className={classes.overlay2}>
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={() => setCurrentId(post._id)}
+          >
+            <MoreHorizIcon fontSize="default" />
+          </Button>
+        </div>
+      )}
+      <div className={classes.details}>
+        <Typography variant="body2" color="textSecondary" component="h2">
+          {post.tags.map((tag) => `#${tag} `)}
+        </Typography>
+      </div>
+      <Typography
+        className={classes.title}
+        gutterBottom
+        variant="h5"
+        component="h2"
+      >
+        {post.title}
+      </Typography>
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {post.memory}
+        </Typography>
+      </CardContent>
+
       <CardActions className={classes.cardActions}>
         <Button
           size="small"
@@ -110,6 +111,7 @@ const Post = ({ post, setCurrentId }) => {
         >
           <Likes />
         </Button>
+
         {user?._id === post.creator && (
           <Button
             size="small"
