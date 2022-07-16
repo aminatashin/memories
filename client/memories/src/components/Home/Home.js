@@ -22,7 +22,7 @@ function useQuery() {
 }
 const Home = ({ currentId, setCurrentId }) => {
   const [search, setSearch] = useState("");
-  const [tags, setTags] = useState([]);
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const query = useQuery();
@@ -40,7 +40,7 @@ const Home = ({ currentId, setCurrentId }) => {
   const searchPost = () => {
     if (search.trim()) {
       dispatch(getPostsSearch({ search }));
-      console.log(querySearch);
+
       navigate(`/posts/search?searQuery=${search || "none"}`);
     } else {
       navigate("/");
@@ -95,10 +95,13 @@ const Home = ({ currentId, setCurrentId }) => {
                   Search
                 </Button>
               </AppBar>
+
               <Form currentId={currentId} setCurrentId={setCurrentId} />
-              <Paper elevation={6}>
-                <Paginate page={page} />
-              </Paper>
+              {!searchQuery && (
+                <Paper elevation={6} className={classes.pagination}>
+                  <Paginate page={page} />
+                </Paper>
+              )}
             </Grid>
           </Grid>
         </Container>

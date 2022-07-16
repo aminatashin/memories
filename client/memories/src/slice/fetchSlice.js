@@ -1,5 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+// ================================================
 const Url = "http://localhost:5000/memory";
+export const getPostId = createAsyncThunk(
+  "PostsSlice/getPostId",
+  async (id, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:5000/memory/post/${id}`);
+      if (res.ok) {
+        const data = await res.json();
+
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue;
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue;
+    }
+  }
+);
 export const getPosts = createAsyncThunk(
   "PostsSlice/getPosts",
   async (page, thunkAPI) => {
@@ -7,6 +26,7 @@ export const getPosts = createAsyncThunk(
       const res = await fetch(`http://localhost:5000/memory?page=${page}`);
       if (res.ok) {
         const data = await res.json();
+
         return data;
       } else {
         return thunkAPI.rejectWithValue;
@@ -63,12 +83,14 @@ const getPostsSlice = createSlice({
     search: {},
     currentPage: {},
     numberOfPages: {},
+    loading: true,
+    postId: [],
   },
   reducer: {
-    postRemove: (state, action) => {
+    isLoading: (state, action) => {
       return {
         ...state,
-        stock: state.stock.find((p, i) => i !== action.payload),
+        loading: action.payload,
       };
     },
   },
@@ -104,6 +126,13 @@ const getPostsSlice = createSlice({
         search: action.payload,
       };
     },
+    [getPostId.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        postId: action.payload,
+      };
+    },
   },
 });
+
 export default getPostsSlice.reducer;

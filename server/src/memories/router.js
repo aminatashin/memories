@@ -5,22 +5,8 @@ import { tokenAuth } from "../auth/auth.js";
 // =============================
 const memoryRouter = express.Router();
 // =================================
-// memoryRouter.post("/",tokenAuth, async (req, res, next) => {
-//   try {
-//     const { id: _id } = req.params;
-//     const memory = req.body;
-//     const newMemory = new memoryModel({
-//       ...memory,
-//       creator: _id,
-//       createdAt: new Date().toISOString(),
-//     });
-//     await newMemory.save();
-//     res.send(newMemory);
-//   } catch (error) {
-//     next(error);
-//     console.log(error);
-//   }
-// });
+
+// ===================================================
 memoryRouter.post("/", tokenAuth, async (req, res) => {
   const post = req.body;
 
@@ -76,8 +62,9 @@ memoryRouter.get("/search", async (req, res, next) => {
 // ======================================
 memoryRouter.get("/:id", async (req, res, next) => {
   try {
-    const getMemory = await memoryModel.findById(req.params.id);
-    res.send(getMemory);
+    const { id: _id } = req.params;
+    const getMemory = await memoryModel.findById(_id);
+    res.json(getMemory);
   } catch (error) {
     next(error);
     console.log(error);
