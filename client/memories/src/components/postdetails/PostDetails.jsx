@@ -12,6 +12,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPostId, getPostsSearch } from "../../slice/fetchSlice";
 
 import useStyles from "./styles";
+import CommentSection from "./CommentSection";
 const PostDetails = ({ search }) => {
   const postId = useSelector((state) => state.PostsSlice.postId);
   const fetchPosts = useSelector((state) => state.PostsSlice.stock);
@@ -35,7 +36,7 @@ const PostDetails = ({ search }) => {
 
   const openPost = (_id) => navigate(`/posts/${_id}`);
 
-  const recommendedPosts = fetchPosts.filter(({ _id }) => _id === postId.likes);
+  const recommendedPosts = fetchPosts.filter(({ _id }) => _id !== postId._id);
 
   return !postId ? (
     <CircularProgress />
@@ -62,11 +63,8 @@ const PostDetails = ({ search }) => {
             {moment(postId.createdAt).fromNow()}
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
-          <Typography variant="body1">
-            <strong>Realtime Chat - coming soon!</strong>
-          </Typography>
-          <Divider style={{ margin: "20px 0" }} />
-          {/* <CommentSection post={postId} /> */}
+
+          <CommentSection postId={postId} />
           <Divider style={{ margin: "20px 0" }} />
         </div>
         <div className={classes.imageSection}>
@@ -107,7 +105,7 @@ const PostDetails = ({ search }) => {
                   <Typography gutterBottom variant="subtitle1">
                     Likes: {likes.length}
                   </Typography>
-                  <img src={selectedFile} width="200px" />
+                  <img src={selectedFile} alt="userpic" width="200px" />
                 </div>
               )
             )}

@@ -20,6 +20,7 @@ export const getPosts = createAsyncThunk(
     }
   }
 );
+
 export const getPostId = createAsyncThunk(
   "PostsSlice/getPostId",
   async (id, thunkAPI) => {
@@ -42,7 +43,7 @@ export const getPostsSearch = createAsyncThunk(
   async (searchQuery, thunkAPI) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/memory/search?searchQuery=${searchQuery.search}`
+        `http://localhost:5000/memory/search/` + searchQuery.search
       );
       if (res.ok) {
         const data = await res.json();
@@ -76,6 +77,26 @@ export const getUser = createAsyncThunk(
     }
   }
 );
+
+export const commentPost = createAsyncThunk(
+  "PostsSlice/commentPost",
+  async (id, comment) => {
+    const res = await fetch(`http://localhost:5000/memory/comment/` + id, {
+      method: "POST",
+      body: JSON.stringify(comment),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      },
+    });
+    if (res.ok) {
+      // thunkAPI.dispatch(getPosts());
+      return comment;
+    } else {
+      console.log(`from post comment redux${Error}`);
+    }
+  }
+);
 const getPostsSlice = createSlice({
   name: "PostsSlice",
   initialState: {
@@ -86,6 +107,7 @@ const getPostsSlice = createSlice({
     numberOfPages: {},
     loading: true,
     postId: [],
+    comment: [],
   },
   reducer: {
     isLoading: (state, action) => {
@@ -131,6 +153,12 @@ const getPostsSlice = createSlice({
       return {
         ...state,
         postId: action.payload,
+      };
+    },
+    [commentPost.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        comment: action.payload,
       };
     },
   },

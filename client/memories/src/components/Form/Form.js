@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
-
+import { useNavigate, useParams } from "react-router-dom";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase64 from "react-file-base64";
 import { getPosts } from "../../slice/fetchSlice";
@@ -16,14 +16,15 @@ const Form = ({ currentId, setCurrentId }) => {
     url2: "",
     selectedFile: "",
   });
-
+  const navigate = useNavigate();
+  const { id: _id } = useParams();
   // ============================================
 
   const fetchPosts = useSelector((state) =>
     currentId ? state.PostsSlice.stock.find((p) => p._id === currentId) : null
   );
   const user = useSelector((state) => state.PostsSlice.user);
-
+  const posts = useSelector((state) => state.PostsSlice.stock);
   const dispatch = useDispatch();
   useEffect(() => {
     if (fetchPosts) {
@@ -56,6 +57,7 @@ const Form = ({ currentId, setCurrentId }) => {
     });
     if (res.ok) {
       alert("successfully added the Beautiful Memory!");
+      // navigate(`/posts/${_id}`);
       // here you should re-fetch the memories!
       dispatch(getPosts());
     }

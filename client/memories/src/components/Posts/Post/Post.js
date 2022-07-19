@@ -50,9 +50,7 @@ const Post = ({ post, setCurrentId }) => {
       </>
     );
   };
-  const handlepostPage = () => {
-    navigate(`/posts/${post._id}`);
-  };
+
   // ==================================================
   return (
     <Card className={classes.card} raised elevation={6}>

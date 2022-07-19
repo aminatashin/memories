@@ -5,7 +5,26 @@ import { tokenAuth } from "../auth/auth.js";
 // =============================
 const memoryRouter = express.Router();
 // =================================
+memoryRouter.post("/comment/:id", tokenAuth, async (req, res) => {
+  try {
+    const { id: _id } = req.params;
 
+    const post = await memoryModel.findById(_id);
+
+    const updatedPost = await memoryModel.findByIdAndUpdate(
+      _id,
+      {
+        $push: { comment: req.body },
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    console.log(`from Post Commentrouter${error}`);
+  }
+});
 // ===================================================
 memoryRouter.post("/", tokenAuth, async (req, res) => {
   const post = req.body;

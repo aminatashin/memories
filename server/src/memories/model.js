@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 // =============================
+const commentSchema = new Schema({
+  text: { type: String },
+});
 const memorySchema = new Schema({
   title: { type: String },
   memory: { type: String },
@@ -9,6 +12,7 @@ const memorySchema = new Schema({
   tags: [String],
   selectedFile: { type: String },
   likes: { type: [String], default: [] },
+  comment: { type: [commentSchema], default: [] },
   createdAt: {
     type: Date,
     default: new Date(),
