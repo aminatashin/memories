@@ -8,14 +8,17 @@ const memoryRouter = express.Router();
 memoryRouter.post("/comment/:id", tokenAuth, async (req, res) => {
   try {
     const { id: _id } = req.params;
+    console.log("ID", _id);
+    console.log(req.body);
 
     const post = await memoryModel.findById(_id);
 
     const updatedPost = await memoryModel.findByIdAndUpdate(
       _id,
       {
-        $push: { comment: req.body },
+        $push: { comments: req.body },
       },
+
       {
         new: true,
       }

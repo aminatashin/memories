@@ -32,11 +32,16 @@ const PostDetails = ({ search }) => {
   //   }
   // }, [postId]);
 
-  if (!postId) return null;
+  //if (!postId) return null;
 
   const openPost = (_id) => navigate(`/posts/${_id}`);
 
   const recommendedPosts = fetchPosts.filter(({ _id }) => _id !== postId._id);
+  const likedPosts = fetchPosts.filter((post) => {
+    console.log("!!!", post.likes);
+    console.log(_id);
+    return post.includes((id) => id === post.likes);
+  });
 
   return !postId ? (
     <CircularProgress />
@@ -79,14 +84,14 @@ const PostDetails = ({ search }) => {
         </div>
       </div>
 
-      {recommendedPosts.length && (
+      {likedPosts.length && (
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">
             You might also like:
           </Typography>
           <Divider />
           <div className={classes.recommendedPosts}>
-            {recommendedPosts.map(
+            {likedPosts.map(
               ({ title, name, memory, likes, selectedFile, _id }) => (
                 <div
                   style={{ margin: "20px", cursor: "pointer" }}

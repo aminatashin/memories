@@ -10,10 +10,11 @@ import commentRouter from "./comment/comment.js";
 const server = express();
 const port = process.env.PORT || 5000;
 // ====================================
+server.use(cors());
 server.use(bodyParser.json({ limit: "30mb", extended: true }));
 server.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 server.use(express.json());
-server.use(cors());
+
 // =====================================
 server.use("/memory", memoryRouter);
 server.use("/usermemory", userRouter);

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 // =============================
 const commentSchema = new Schema({
-  text: { type: String },
+  comment: { type: String },
 });
 const memorySchema = new Schema({
   title: { type: String },
@@ -12,7 +12,7 @@ const memorySchema = new Schema({
   tags: [String],
   selectedFile: { type: String },
   likes: { type: [String], default: [] },
-  comment: { type: [commentSchema], default: [] },
+  comments: { type: [commentSchema], default: [] },
   createdAt: {
     type: Date,
     default: new Date(),

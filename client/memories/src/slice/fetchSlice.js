@@ -80,17 +80,18 @@ export const getUser = createAsyncThunk(
 
 export const commentPost = createAsyncThunk(
   "PostsSlice/commentPost",
-  async (id, comment) => {
+  async ({ comment, id }, thunkAPI) => {
+    console.log(comment);
     const res = await fetch(`http://localhost:5000/memory/comment/` + id, {
       method: "POST",
-      body: JSON.stringify(comment),
+      body: JSON.stringify({ comment }),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
       },
     });
     if (res.ok) {
-      // thunkAPI.dispatch(getPosts());
+      thunkAPI.dispatch(getPosts());
       return comment;
     } else {
       console.log(`from post comment redux${Error}`);

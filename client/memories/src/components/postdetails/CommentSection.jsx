@@ -14,8 +14,11 @@ const CommentSection = ({ postId }) => {
   const dispatch = useDispatch();
 
   const handleComment = async () => {
+    console.log(user);
     const postComment = `${user.name}:${comment}`;
-    const newComment = await dispatch(commentPost(postComment, postId._id));
+    const newComment = await dispatch(
+      commentPost({ comment: postComment, id: postId._id })
+    );
 
     setComment(newComment);
     setComment("");
