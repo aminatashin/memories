@@ -28,7 +28,7 @@ export const getPostId = createAsyncThunk(
       const res = await fetch(`http://localhost:5000/memory/` + id);
       if (res.ok) {
         const data = await res.json();
-
+        thunkAPI.dispatch(getPosts());
         return data;
       } else {
         return thunkAPI.rejectWithValue;

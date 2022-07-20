@@ -37,11 +37,9 @@ const PostDetails = ({ search }) => {
   const openPost = (_id) => navigate(`/posts/${_id}`);
 
   const recommendedPosts = fetchPosts.filter(({ _id }) => _id !== postId._id);
-  const likedPosts = fetchPosts.filter((post) => {
-    console.log("!!!", post.likes);
-    console.log(_id);
-    return post.includes((id) => id === post.likes);
-  });
+  // const likedPosts = fetchPosts.filter((post) => {
+  //   return post.includes((id) => id === postId.likes);
+  // });
 
   return !postId ? (
     <CircularProgress />
@@ -84,7 +82,7 @@ const PostDetails = ({ search }) => {
         </div>
       </div>
 
-      {likedPosts.length && (
+      {/* {likedPosts.length && (
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">
             You might also like:
@@ -116,7 +114,7 @@ const PostDetails = ({ search }) => {
             )}
           </div>
         </div>
-      )}
+      )} */}
     </Paper>
   );
 };
