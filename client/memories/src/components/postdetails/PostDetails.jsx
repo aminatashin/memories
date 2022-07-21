@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { getPostId, getPostsSearch } from "../../slice/fetchSlice";
+import { getPostId } from "../../slice/fetchSlice";
 
 import useStyles from "./styles";
 import CommentSection from "./CommentSection";
@@ -26,24 +26,14 @@ const PostDetails = ({ search }) => {
     console.log(postId.likes);
   }, [_id]);
 
-  // useEffect(() => {
-  //   if (postId) {
-  //     dispatch(getPostsSearch({ search: postId.title }));
-  //   }
-  // }, [postId]);
-
-  //if (!postId) return null;
-
   const openPost = (_id) => navigate(`/posts/${_id}`);
 
   const recommendedPosts = fetchPosts.filter(({ _id }) => _id !== postId._id);
-  // const likedPosts = fetchPosts.filter((post) => {
-  //   return post.includes((id) => id === postId.likes);
-  // });
-
-  return !postId ? (
-    <CircularProgress />
-  ) : (
+  const likedPosts = fetchPosts.filter((post) => {
+    return post.includes(postId.likes);
+  });
+  console.log(recommendedPosts);
+  return (
     <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
       <div className={classes.card}>
         <div className={classes.section}>
