@@ -5,6 +5,23 @@ import { tokenAuth } from "../auth/auth.js";
 // =============================
 const memoryRouter = express.Router();
 // =================================
+memoryRouter.post("/", tokenAuth, async (req, res) => {
+  const post = req.body;
+
+  const newPostMessage = new memoryModel({
+    ...post,
+    creator: req.user,
+    createdAt: new Date().toISOString(),
+  });
+
+  try {
+    await newPostMessage.save();
+
+    res.status(201).json(newPostMessage);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+});
 memoryRouter.post("/comment/:id", tokenAuth, async (req, res) => {
   try {
     const { id: _id } = req.params;
@@ -49,26 +66,36 @@ memoryRouter.post("/", tokenAuth, async (req, res) => {
 
 // =================================
 memoryRouter.get("/", async (req, res, next) => {
-  const { page } = req.query;
   try {
-    const LIMIT = 8;
-    const startIndex = (Number(page) - 1) * LIMIT;
-    const total = await memoryModel.countDocuments();
-    const getMemory = await memoryModel
-      .find()
-      .sort({ _id: -1 })
-      .limit(LIMIT)
-      .skip(startIndex);
-    res.json({
-      data: getMemory,
-      currentPage: Number(page),
-      numberOfPages: Math.ceil(total / LIMIT),
-    });
+    const getMemory = await memoryModel.find();
+
+    res.json(getMemory);
   } catch (error) {
     next(error);
     console.log(error);
   }
 });
+// memoryRouter.get("/", async (req, res, next) => {
+//   const { page } = req.query;
+//   try {
+//     const LIMIT = 8;
+//     const startIndex = (Number(page) - 1) * LIMIT;
+//     const total = await memoryModel.countDocuments();
+//     const getMemory = await memoryModel
+//       .find()
+//       .sort({ _id: -1 })
+//       .limit(LIMIT)
+//       .skip(startIndex);
+//     res.json({
+//       data: getMemory,
+//       currentPage: Number(page),
+//       numberOfPages: Math.ceil(total / LIMIT),
+//     });
+//   } catch (error) {
+//     next(error);
+//     console.log(error);
+//   }
+// });
 // =================================
 memoryRouter.get("/:id", async (req, res, next) => {
   try {

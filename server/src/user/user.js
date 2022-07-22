@@ -54,29 +54,29 @@ userRouter.post("/signin", async (req, res, next) => {
     console.log("Not a user! Get Token");
   }
 });
-// userRouter.put("/like/:id", tokenAuth, async (req, res, next) => {
-//   try {
-//     if (!mongoose.Types.ObjectId.isValid(id))
-//       return res.status(404).send(`No post with id`);
-//     const user = await userModel.findById(req.user._id);
+userRouter.put("/like/:id", tokenAuth, async (req, res, next) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id`);
+    const user = await userModel.findById(req.user._id);
 
-//     const { id: _id } = req.params;
-//     const post = await memoryModel.findById(_id);
+    const { id: _id } = req.params;
+    const post = await memoryModel.findById(_id);
 
-//     const index = user.likes.findIndex((id) => id === String(post._id));
+    const index = user.likes.findIndex((id) => id === String(post._id));
 
-//     if (index === -1) {
-//       user.likes.push(post._id);
-//     } else {
-//       user.likes = user.likes.filter((id) => id !== String(user._id));
-//     }
-//     const updatedPost = await userModel.findByIdAndUpdate(req.user._id, user, {
-//       new: true,
-//     });
-//     res.status(200).json(updatedPost);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+    if (index === -1) {
+      user.likes.push(post._id);
+    } else {
+      user.likes = user.likes.filter((id) => id !== String(user._id));
+    }
+    const updatedPost = await userModel.findByIdAndUpdate(req.user._id, user, {
+      new: true,
+    });
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    console.log(error);
+  }
+});
 // ================================
 export default userRouter;

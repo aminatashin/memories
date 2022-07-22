@@ -99,11 +99,11 @@ const Home = ({ currentId, setCurrentId, user }) => {
               </AppBar>
 
               <Form currentId={currentId} setCurrentId={setCurrentId} />
-              {/* {!searchQuery && (
+              {!searchQuery && (
                 <Paper elevation={6} className={classes.pagination}>
                   <Paginate page={page} />
                 </Paper>
-              )} */}
+              )}
             </Grid>
           </Grid>
         </Container>

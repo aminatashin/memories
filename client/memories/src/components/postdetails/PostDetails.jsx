@@ -13,7 +13,7 @@ import { getPostId } from "../../slice/fetchSlice";
 
 import useStyles from "./styles";
 import CommentSection from "./CommentSection";
-const PostDetails = ({ search }) => {
+const PostDetails = ({ search, user }) => {
   const postId = useSelector((state) => state.PostsSlice.postId);
   const fetchPosts = useSelector((state) => state.PostsSlice.stock);
   const postIdLoading = useSelector((state) => state.PostsSlice.loading);

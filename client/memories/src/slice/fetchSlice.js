@@ -9,7 +9,7 @@ export const getPosts = createAsyncThunk(
       const res = await fetch(`http://localhost:5000/memory?page=${page}`);
       if (res.ok) {
         const data = await res.json();
-
+        console.log(data);
         return data;
       } else {
         return thunkAPI.rejectWithValue;

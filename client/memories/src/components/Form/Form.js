@@ -57,9 +57,10 @@ const Form = ({ currentId, setCurrentId }) => {
     });
     if (res.ok) {
       alert("successfully added the Beautiful Memory!");
+
       // navigate(`/posts/${_id}`);
       // here you should re-fetch the memories!
-      // dispatch(getPosts());
+      dispatch(getPosts());
     }
   };
 
