@@ -12,7 +12,7 @@ const memorySchema = new Schema({
   tags: [String],
   selectedFile: { type: String },
   likes: { type: [String], default: [] },
-  comments: { type: [commentSchema], default: [] },
+  comments: { type: [String], default: [] },
   createdAt: {
     type: Date,
     default: new Date(),

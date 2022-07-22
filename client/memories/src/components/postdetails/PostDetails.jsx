@@ -29,9 +29,9 @@ const PostDetails = ({ search }) => {
   const openPost = (_id) => navigate(`/posts/${_id}`);
 
   const recommendedPosts = fetchPosts.filter(({ _id }) => _id !== postId._id);
-  const likedPosts = fetchPosts.filter((post) => {
-    return post.includes(postId.likes);
-  });
+  // const likedPosts = fetchPosts.filter((post) => {
+  //   return post.includes(postId.likes);
+  // });
   console.log(recommendedPosts);
   return (
     <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>

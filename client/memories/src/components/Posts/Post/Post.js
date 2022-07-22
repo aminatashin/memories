@@ -113,7 +113,7 @@ const Post = ({ post, setCurrentId }) => {
         {user?._id === post.creator && (
           <Button
             size="small"
-            color="primary"
+            color="secondary"
             onClick={() => dispatch(removePost(post._id))}
           >
             <DeleteIcon fontSize="small" /> Delete
