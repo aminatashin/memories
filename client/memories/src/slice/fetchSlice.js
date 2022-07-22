@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // ================================================
-const Url = "http://localhost:5000/memory";
 
 export const getPosts = createAsyncThunk(
   "PostsSlice/getPosts",
@@ -150,9 +149,16 @@ const getPostsSlice = createSlice({
         search: action.payload,
       };
     },
+    [getPostId.pending]: (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
     [getPostId.fulfilled]: (state, action) => {
       return {
         ...state,
+        loading: false,
         postId: action.payload,
       };
     },

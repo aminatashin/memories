@@ -16,6 +16,7 @@ import CommentSection from "./CommentSection";
 const PostDetails = ({ search }) => {
   const postId = useSelector((state) => state.PostsSlice.postId);
   const fetchPosts = useSelector((state) => state.PostsSlice.stock);
+  const postIdLoading = useSelector((state) => state.PostsSlice.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const classes = useStyles();
@@ -35,42 +36,46 @@ const PostDetails = ({ search }) => {
   console.log(recommendedPosts);
   return (
     <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
-      <div className={classes.card}>
-        <div className={classes.section}>
-          <Typography variant="h3" component="h2">
-            {postId.title}
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="h6"
-            color="textSecondary"
-            component="h2"
-          >
-            {postId.tags}
-          </Typography>
-          <Typography gutterBottom variant="body1" component="p">
-            {postId.memory}
-          </Typography>
-          <Typography variant="h6">Created by: {postId.name}</Typography>
-          <Typography variant="body1">
-            {moment(postId.createdAt).fromNow()}
-          </Typography>
-          <Divider style={{ margin: "20px 0" }} />
+      {postIdLoading ? (
+        <CircularProgress />
+      ) : (
+        <div className={classes.card}>
+          <div className={classes.section}>
+            <Typography variant="h3" component="h2">
+              {postId.title}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="h6"
+              color="textSecondary"
+              component="h2"
+            >
+              {postId.tags}
+            </Typography>
+            <Typography gutterBottom variant="body1" component="p">
+              {postId.memory}
+            </Typography>
+            <Typography variant="h6">Created by: {postId.name}</Typography>
+            <Typography variant="body1">
+              {moment(postId.createdAt).fromNow()}
+            </Typography>
+            <Divider style={{ margin: "20px 0" }} />
 
-          <CommentSection postId={postId} />
-          <Divider style={{ margin: "20px 0" }} />
+            <CommentSection postId={postId} />
+            <Divider style={{ margin: "20px 0" }} />
+          </div>
+          <div className={classes.imageSection}>
+            <img
+              className={classes.media}
+              src={
+                postId.selectedFile ||
+                "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+              }
+              alt={postId.title}
+            />
+          </div>
         </div>
-        <div className={classes.imageSection}>
-          <img
-            className={classes.media}
-            src={
-              postId.selectedFile ||
-              "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
-            }
-            alt={postId.title}
-          />
-        </div>
-      </div>
+      )}
 
       {recommendedPosts.length && (
         <div className={classes.section}>

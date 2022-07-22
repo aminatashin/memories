@@ -12,21 +12,34 @@ import { getUser } from "./slice/fetchSlice";
 function App() {
   const [currentId, setCurrentId] = useState(null);
 
+  const [user, setcurrentUser] = useState("");
+
   return (
     <BrowserRouter>
       <Container maxWidth="lg">
-        <Navbar currentId={currentId} setCurrentId={setCurrentId} />
+        <Navbar
+          currentId={currentId}
+          setCurrentId={setCurrentId}
+          user={user}
+          setcurrentUser={setcurrentUser}
+        />
         <Routes>
           <Route path="/" element={<Navigate to="/posts" replace />} />
           <Route
             path="/posts"
-            element={<Home currentId={currentId} setCurrentId={setCurrentId} />}
+            element={
+              <Home
+                currentId={currentId}
+                setCurrentId={setCurrentId}
+                user={user}
+              />
+            }
           />
           <Route
             path="/posts/search"
             element={<Home currentId={currentId} setCurrentId={setCurrentId} />}
           />
-          <Route path="/posts/:id" element={<PostDetails />} />
+          <Route path="/posts/:id" element={<PostDetails user={user} />} />
           <Route path="/auth" element={<Auth />} />
         </Routes>
       </Container>

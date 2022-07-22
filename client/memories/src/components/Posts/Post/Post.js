@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useStyles from "./styles";
 import moment from "moment";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
@@ -13,15 +13,14 @@ import {
   CardMedia,
   CardContent,
   CardActions,
-  ButtonBase,
 } from "@material-ui/core";
 import { removePost, like } from "../../../slice/postSlice";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 // ==================================================
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.PostsSlice.user);
-  const navigate = useNavigate();
+
   // ==================================================
   const dispatch = useDispatch();
   // ==================================================

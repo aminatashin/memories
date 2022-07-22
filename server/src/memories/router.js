@@ -130,55 +130,29 @@ memoryRouter.delete("/delete/:id", tokenAuth, async (req, res, next) => {
   }
 });
 // ======================================
-memoryRouter.put("/like/:id", tokenAuth, async (req, res, next) => {
-  try {
-    const { id: _id } = req.params;
+// memoryRouter.put("/like/:id", tokenAuth, async (req, res, next) => {
+//   try {
+//     const { id: _id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(_id))
-      return res.status(404).send(`No post with id`);
-    const post = await memoryModel.findById(_id);
+//     if (!mongoose.Types.ObjectId.isValid(_id))
+//       return res.status(404).send(`No post with id`);
+//     const post = await memoryModel.findById(_id);
 
-    const index = post.likes.findIndex((id) => id === String(_id));
+//     const index = post.likes.findIndex((id) => id === String(_id));
 
-    if (index === -1) {
-      post.likes.push(_id);
-    } else {
-      post.likes = post.likes.filter((id) => id !== String(_id));
-    }
-    const updatedPost = await memoryModel.findByIdAndUpdate(_id, post, {
-      new: true,
-    });
-    res.status(200).json(updatedPost);
-  } catch (error) {
-    console.log(error);
-  }
-  // const { id } = req.params;
+//     if (index === -1) {
+//       post.likes.push(_id);
+//     } else {
+//       post.likes = post.likes.filter((id) => id !== String(_id));
+//     }
+//     const updatedPost = await memoryModel.findByIdAndUpdate(_id, post, {
+//       new: true,
+//     });
+//     res.status(200).json(updatedPost);
+//   } catch (error) {
+//     console.log(error);
+//   }
 
-  // if (!req.user) {
-  //   return res.json({ message: "Unauthenticated" });
-  // }
-
-  // if (!mongoose.Types.ObjectId.isValid(id))
-  //   return res.status(404).send(`No post with id: ${id}`);
-
-  // const post = await memoryModel.findById(id);
-
-  // const index = post.likes.findIndex((id) => id === String(req.user));
-
-  // if (index === -1) {
-  //   const updatedPost = await memoryModel.findByIdAndUpdate(
-  //     id,
-  //     {
-  //       $push: { likes: req.user },
-  //     },
-  //     {
-  //       new: true,
-  //     }
-  //   );
-  //   res.status(200).json(updatedPost);
-  // } else {
-  //   post.likes = post.likes.filter((id) => id !== String(req.user));
-  // }
-});
+// });
 // ======================================
 export default memoryRouter;

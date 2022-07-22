@@ -24,6 +24,7 @@ const Auth = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    likeCount: null,
   });
 
   const classes = useStyles();

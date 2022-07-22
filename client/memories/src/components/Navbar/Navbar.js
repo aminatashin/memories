@@ -16,8 +16,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getPosts } from "../../slice/fetchSlice";
 
 // ===============================================
-const Navbar = () => {
-  const [user, setcurrentUser] = useState("");
+const Navbar = ({ user, setcurrentUser }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();

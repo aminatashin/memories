@@ -24,20 +24,18 @@ export const removePost = createAsyncThunk(
 );
 
 const postData = {
-  creator: "",
-  title: "",
-  memory: "",
-  tags: "",
-  url: "",
-  url2: "",
-  selectedFile: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
   likeCount: null,
 };
 export const like = createAsyncThunk(
   "posts/like",
   async (initialState, thunkAPI) => {
     const id = initialState;
-    const res = await fetch(`http://localhost:5000/memory/like/` + id, {
+    const res = await fetch(`http://localhost:5000/usermemory/like/` + id, {
       method: "PUT",
       // body: JSON.stringify(postData.likeCount),
       headers: {

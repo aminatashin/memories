@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Typography, TextField, Button } from "@material-ui/core/";
+import {
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@material-ui/core/";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getUser, getPostId } from "../../slice/fetchSlice";
@@ -7,10 +12,11 @@ import { commentPost } from "../../slice/fetchSlice";
 import useStyles from "./styles";
 const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
-  const [comments, setComments] = useState(postId.comments);
+  // const [comments, setComments] = useState(postId.comments);
   const classes = useStyles();
   const { id: _id } = useParams();
   const user = useSelector((state) => state.PostsSlice.user);
+  const postIdLoading = useSelector((state) => state.PostsSlice.loading);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -24,9 +30,11 @@ const CommentSection = ({ postId }) => {
       commentPost({ comment: postComment, id: postId._id })
     );
     setComment("");
-    setComment(newComment);
+    //setComment(newComment);
     dispatch(getPostId(_id));
   };
+
+  console.log("POST COMMENTS", postId.comments);
 
   return (
     <div>
@@ -38,7 +46,11 @@ const CommentSection = ({ postId }) => {
 
           {/* {comments?.map((c, i) => ( */}
           <Typography gutterBottom variant="subtitle1">
-            {comments}
+            {postIdLoading ? (
+              <CircularProgress />
+            ) : (
+              postId.comments && postId.comments.map((c) => <div>{c}</div>)
+            )}
           </Typography>
           {/* ))} */}
         </div>

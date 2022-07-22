@@ -14,13 +14,16 @@ import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import useStyles from "./styles";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getPosts, getPostsSearch, getUser } from "../../slice/fetchSlice";
+import { getPostsSearch, getUser } from "../../slice/fetchSlice";
 
 import Paginate from "../Paginate";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-const Home = ({ currentId, setCurrentId }) => {
+const Home = ({ currentId, setCurrentId, user }) => {
+  // user is the currently loggedin user
+  // user contains the like array
+  // which holds the ids of the posts he previously liked
   const [search, setSearch] = useState("");
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -28,7 +31,7 @@ const Home = ({ currentId, setCurrentId }) => {
   const navigate = useNavigate();
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
-  const querySearch = useSelector((state) => state.PostsSlice.search);
+  // const querySearch = useSelector((state) => state.PostsSlice.search);
   // =========================================
 
   // =========================================
@@ -96,11 +99,11 @@ const Home = ({ currentId, setCurrentId }) => {
               </AppBar>
 
               <Form currentId={currentId} setCurrentId={setCurrentId} />
-              {!searchQuery && (
+              {/* {!searchQuery && (
                 <Paper elevation={6} className={classes.pagination}>
                   <Paginate page={page} />
                 </Paper>
-              )}
+              )} */}
             </Grid>
           </Grid>
         </Container>
