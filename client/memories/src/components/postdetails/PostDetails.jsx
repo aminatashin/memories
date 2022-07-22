@@ -72,14 +72,14 @@ const PostDetails = ({ search }) => {
         </div>
       </div>
 
-      {/* {likedPosts.length && (
+      {recommendedPosts.length && (
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">
             You might also like:
           </Typography>
           <Divider />
           <div className={classes.recommendedPosts}>
-            {likedPosts.map(
+            {recommendedPosts.map(
               ({ title, name, memory, likes, selectedFile, _id }) => (
                 <div
                   style={{ margin: "20px", cursor: "pointer" }}
@@ -104,7 +104,7 @@ const PostDetails = ({ search }) => {
             )}
           </div>
         </div>
-      )} */}
+      )}
     </Paper>
   );
 };

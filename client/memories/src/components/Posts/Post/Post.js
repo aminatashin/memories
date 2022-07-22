@@ -98,6 +98,9 @@ const Post = ({ post, setCurrentId }) => {
         <Typography variant="body2" color="textSecondary" component="p">
           {post.memory}
         </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {post.url}
+        </Typography>
       </CardContent>
 
       <CardActions className={classes.cardActions}>

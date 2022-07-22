@@ -24,7 +24,7 @@ const CommentSection = ({ postId }) => {
       commentPost({ comment: postComment, id: postId._id })
     );
     setComment("");
-    setComments(newComment);
+    setComment(newComment);
     dispatch(getPostId(_id));
   };
 
@@ -42,32 +42,33 @@ const CommentSection = ({ postId }) => {
           </Typography>
           {/* ))} */}
         </div>
-
-        <div style={{ width: "70%" }}>
-          <Typography gutterBottom variant="h6">
-            Write a comment
-          </Typography>
-          <TextField
-            fullWidth
-            rows={4}
-            variant="outlined"
-            label="Comment"
-            multiline
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <br />
-          <Button
-            style={{ marginTop: "10px" }}
-            fullWidth
-            disabled={!comment.length}
-            color="primary"
-            variant="contained"
-            onClick={handleComment}
-          >
-            Comment
-          </Button>
-        </div>
+        {user?.firstName && (
+          <div style={{ width: "70%" }}>
+            <Typography gutterBottom variant="h6">
+              Write a comment
+            </Typography>
+            <TextField
+              fullWidth
+              rows={4}
+              variant="outlined"
+              label="Comment"
+              multiline
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <br />
+            <Button
+              style={{ marginTop: "10px" }}
+              fullWidth
+              disabled={!comment.length}
+              color="primary"
+              variant="contained"
+              onClick={handleComment}
+            >
+              Comment
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
