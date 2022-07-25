@@ -65,37 +65,37 @@ memoryRouter.post("/", tokenAuth, async (req, res) => {
 });
 
 // =================================
-memoryRouter.get("/", async (req, res, next) => {
-  try {
-    const getMemory = await memoryModel.find();
-
-    res.json(getMemory);
-  } catch (error) {
-    next(error);
-    console.log(error);
-  }
-});
 // memoryRouter.get("/", async (req, res, next) => {
-//   const { page } = req.query;
 //   try {
-//     const LIMIT = 8;
-//     const startIndex = (Number(page) - 1) * LIMIT;
-//     const total = await memoryModel.countDocuments();
-//     const getMemory = await memoryModel
-//       .find()
-//       .sort({ _id: -1 })
-//       .limit(LIMIT)
-//       .skip(startIndex);
-//     res.json({
-//       data: getMemory,
-//       currentPage: Number(page),
-//       numberOfPages: Math.ceil(total / LIMIT),
-//     });
+//     const getMemory = await memoryModel.find();
+
+//     res.json(getMemory);
 //   } catch (error) {
 //     next(error);
 //     console.log(error);
 //   }
 // });
+memoryRouter.get("/", async (req, res, next) => {
+  const { page } = req.query;
+  try {
+    const LIMIT = 8;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const total = await memoryModel.countDocuments();
+    const getMemory = await memoryModel
+      .find()
+      .sort({ _id: -1 })
+      .limit(LIMIT)
+      .skip(startIndex);
+    res.json({
+      data: getMemory,
+      currentPage: Number(page),
+      numberOfPages: Math.ceil(total / LIMIT),
+    });
+  } catch (error) {
+    next(error);
+    console.log(error);
+  }
+});
 // =================================
 memoryRouter.get("/:id", async (req, res, next) => {
   try {

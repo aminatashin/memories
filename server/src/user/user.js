@@ -56,13 +56,14 @@ userRouter.post("/signin", async (req, res, next) => {
 });
 userRouter.put("/like/:id", tokenAuth, async (req, res, next) => {
   try {
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(404).send(`No post with id`);
+    // if (!mongoose.Types.ObjectId.isValid(id))
+    //   return res.status(404).send(`No post with id`);
     const user = await userModel.findById(req.user._id);
 
     const { id: _id } = req.params;
     const post = await memoryModel.findById(_id);
-
+    console.log(user);
+    console.log(post);
     const index = user.likes.findIndex((id) => id === String(post._id));
 
     if (index === -1) {
