@@ -25,19 +25,19 @@ const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
   // ==================================================
   const Likes = () => {
-    if (post.likes.length > 0) {
-      return post.likes.find((like) => like === user?._id) ? (
+    if (user.likes.length > 0) {
+      return user.likes.find((like) => like === post?._id) ? (
         <>
           <ThumbUpAltIcon fontSize="small" />
           &nbsp;
-          {post.likes.length > 2
-            ? `You and ${post.likes.length - 1} others`
-            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+          {user.likes.length > 2
+            ? `You and ${user.likes.length - 1} others`
+            : `${user.likes.length} like${user.likes.length > 1 ? "s" : ""}`}
         </>
       ) : (
         <>
           <ThumbUpAltOutlined fontSize="small" />
-          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}
+          &nbsp;{user.likes.length} {user.likes.length === 1 ? "Like" : "Likes"}
         </>
       );
     }

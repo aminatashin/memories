@@ -6,6 +6,10 @@ import memoryRouter from "./memories/router.js";
 import bodyParser from "body-parser";
 import userRouter from "./user/user.js";
 import commentRouter from "./comment/comment.js";
+import { OAuth2Client } from "google-auth-library";
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config();
 // ==================================
 const server = express();
 const port = process.env.PORT || 5000;

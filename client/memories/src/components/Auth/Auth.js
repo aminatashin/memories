@@ -17,7 +17,11 @@ import { GoogleLogin } from "react-google-login";
 const Auth = () => {
   const [showpassword, setShowpassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-
+  const [loginData, setLoginData] = useState(
+    localStorage.getItem("jwtToken")
+      ? JSON.parse(localStorage.getItem("jwtToken"))
+      : null
+  );
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -36,11 +40,29 @@ const Auth = () => {
   //   }
   // }, []);
 
-  // const googleSuccess = (res) => {
-  //   console.log(res);
-  // };
-  // const googleError = () =>
-  //   alert("Google Sign In was unsuccessful. Try again later");
+  const handleLogin = async (googleData) => {
+    const res = await fetch("http://localhost:5000/usermemory/google-login", {
+      method: "POST",
+      body: JSON.stringify({
+        token: googleData.tokenId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+    setLoginData(data);
+    localStorage.setItem("jwtToken", data.token);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("jwtToken");
+    setLoginData(null);
+  };
+  const handleFailure = (error) => {
+    console.log(error);
+  };
+
   const handleShowPassword = () => {
     setShowpassword((prevShowPassword) => !prevShowPassword);
   };
@@ -152,25 +174,22 @@ const Auth = () => {
           >
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
-          <GoogleLogin
-            clientId=""
-            render={(renderProps) => (
-              <Button
-                className={classes.googleButton}
-                color="primary"
-                fullWidth
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-                startIcon={<Icon />}
-                variant="contained"
-              >
-                Google Sign In
-              </Button>
+          <div>
+            {loginData ? (
+              <div>
+                <h3>You logged in as {loginData.email}</h3>
+                <button onClick={handleLogout}>Logout</button>
+              </div>
+            ) : (
+              <GoogleLogin
+                clientId="23253087452-9ll4qeovhf93ltlogbk9ge0jjg9ktpmb.apps.googleusercontent.com"
+                buttonText="Log in with Google"
+                onSuccess={handleLogin}
+                onFailure={handleFailure}
+                cookiePolicy={"single_host_origin"}
+              ></GoogleLogin>
             )}
-            // onSuccess={googleSuccess}
-            // onFailure={googleError}
-            cookiePolicy="single_host_origin"
-          />
+          </div>
           <Grid container justify="flex-end">
             <Grid item>
               <Button onClick={switchMood}>
