@@ -9,7 +9,8 @@ const userSchema = new Schema(
     email: { type: String },
     password: { type: String },
     comfirmPassword: { type: String },
-    likes: { type: [String], default: [] },
+    // likes: { type: [String], default: [] },
+    selectedFile: { type: String },
   },
   { timestamps: true }
 );

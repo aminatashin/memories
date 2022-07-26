@@ -6,22 +6,21 @@ import {
   Grid,
   Container,
   Avatar,
+  styled,
 } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import Icon from "./Icon";
+import FileBase64 from "react-file-base64";
 import useStyles from "./styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import { GoogleLogin } from "react-google-login";
+import styles from "./styles";
 // ===============================================
 const Auth = () => {
   const [showpassword, setShowpassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-  const [loginData, setLoginData] = useState(
-    localStorage.getItem("jwtToken")
-      ? JSON.parse(localStorage.getItem("jwtToken"))
-      : null
-  );
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -29,39 +28,11 @@ const Auth = () => {
     password: "",
     confirmPassword: "",
     likeCount: null,
+    selectedFile: "",
   });
 
   const classes = useStyles();
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (localStorage.getItem("jwtToken")) {
-  //   } else {
-  //     alert("email&password not found!");
-  //   }
-  // }, []);
-
-  const handleLogin = async (googleData) => {
-    const res = await fetch("http://localhost:5000/usermemory/google-login", {
-      method: "POST",
-      body: JSON.stringify({
-        token: googleData.tokenId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await res.json();
-    setLoginData(data);
-    localStorage.setItem("jwtToken", data.token);
-  };
-  const handleLogout = () => {
-    localStorage.removeItem("jwtToken");
-    setLoginData(null);
-  };
-  const handleFailure = (error) => {
-    console.log(error);
-  };
 
   const handleShowPassword = () => {
     setShowpassword((prevShowPassword) => !prevShowPassword);
@@ -157,12 +128,23 @@ const Auth = () => {
               handleShowPassword={handleShowPassword}
             />
             {isSignup && (
-              <Input
-                name="confirmPassword"
-                label="Repeat Password"
-                handleChange={handleChange}
-                type="password"
-              />
+              <>
+                <Input
+                  name="confirmPassword"
+                  label="Repeat Password"
+                  handleChange={handleChange}
+                  type="password"
+                />
+                <Typography className={classes.FileBase64}>
+                  <FileBase64
+                    type="file"
+                    multiple={false}
+                    onDone={({ base64 }) =>
+                      setFormData({ ...formData, selectedFile: base64 })
+                    }
+                  />
+                </Typography>
+              </>
             )}
           </Grid>
           <Button
@@ -174,22 +156,7 @@ const Auth = () => {
           >
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
-          <div>
-            {loginData ? (
-              <div>
-                <h3>You logged in as {loginData.email}</h3>
-                <button onClick={handleLogout}>Logout</button>
-              </div>
-            ) : (
-              <GoogleLogin
-                clientId="23253087452-9ll4qeovhf93ltlogbk9ge0jjg9ktpmb.apps.googleusercontent.com"
-                buttonText="Log in with Google"
-                onSuccess={handleLogin}
-                onFailure={handleFailure}
-                cookiePolicy={"single_host_origin"}
-              ></GoogleLogin>
-            )}
-          </div>
+
           <Grid container justify="flex-end">
             <Grid item>
               <Button onClick={switchMood}>

@@ -35,7 +35,7 @@ export const like = createAsyncThunk(
   "posts/like",
   async (initialState, thunkAPI) => {
     const id = initialState;
-    const res = await fetch(`http://localhost:5000/usermemory/like/` + id, {
+    const res = await fetch(`http://localhost:5000/memory/like/` + id, {
       method: "PUT",
       // body: JSON.stringify(postData.likeCount),
       headers: {

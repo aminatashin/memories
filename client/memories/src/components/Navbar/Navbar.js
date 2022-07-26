@@ -10,6 +10,8 @@ import {
 // import memory from "../../assesments/memoriesLogo.png";
 import memoriesText from "../../assesments/memoriesText.png";
 import camera2 from "../../assesments/camera2.png";
+import sign2 from "../../assesments/sign2.png";
+import title2 from "../../assesments/title2.jpg";
 import useStyles from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -67,16 +69,10 @@ const Navbar = ({ user, setcurrentUser }) => {
       <div className={classes.brandContainer}>
         <Link to={"/"}>
           {" "}
-          <img
-            component={Link}
-            to="/"
-            src={memoriesText}
-            alt="icon"
-            height="45px"
-          />
+          <img component={Link} to="/" src={title2} alt="pic" height="75px" />
         </Link>
 
-        <img className={classes.image} src={camera2} alt="icon" height="40px" />
+        <img className={classes.image} src={sign2} alt="pic" height="110px" />
       </div>
       <Toolbar className={classes.toolbar}>
         {user ? (
@@ -84,13 +80,12 @@ const Navbar = ({ user, setcurrentUser }) => {
             <Avatar
               className={classes.purple}
               alt={user.firstName}
-              src={user.imageUrl}
+              src={user.selectedFile}
             >
-              {user.firstName.charAt(0)}
+              {user.firstName}
             </Avatar>
             <Typography className={classes.userName} variant="h6">
-              {user.firstName}
-              {user.lastName}
+              {user.firstName}-{user.lastName}
             </Typography>
             <Button
               variant="contained"

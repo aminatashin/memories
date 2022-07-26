@@ -28,4 +28,7 @@ export default makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(1),
   },
+  FileBase64: {
+    marginLeft: "10px",
+  },
 }));

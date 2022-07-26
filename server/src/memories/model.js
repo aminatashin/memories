@@ -10,6 +10,8 @@ const memorySchema = new Schema({
   name: { type: String },
   creator: { type: String },
   tags: [String],
+  url: { type: String },
+  url2: { type: String },
   selectedFile: { type: String },
   likes: { type: [String], default: [] },
   comments: { type: [String], default: [] },

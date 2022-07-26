@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useStyles from "./styles";
 import moment from "moment";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
@@ -18,26 +18,37 @@ import { removePost, like } from "../../../slice/postSlice";
 import { Link } from "react-router-dom";
 // ==================================================
 const Post = ({ post, setCurrentId }) => {
+  const [likes, setLikes] = useState(post?.likes);
   const classes = useStyles();
   const user = useSelector((state) => state.PostsSlice.user);
 
   // ==================================================
   const dispatch = useDispatch();
   // ==================================================
+  const hasLikedPost = post.likes.find((like) => like === user._id);
+  const handleLike = async () => {
+    dispatch(like(post._id));
+
+    if (hasLikedPost) {
+      setLikes(post.likes.filter((id) => id !== user._id));
+    } else {
+      setLikes([...post.likes, user._id]);
+    }
+  };
   const Likes = () => {
-    if (user.likes.length > 0) {
-      return user.likes.find((like) => like === post?._id) ? (
+    if (likes.length > 0) {
+      return likes.find((like) => like === user._id) ? (
         <>
           <ThumbUpAltIcon fontSize="small" />
           &nbsp;
-          {user.likes.length > 2
-            ? `You and ${user.likes.length - 1} others`
-            : `${user.likes.length} like${user.likes.length > 1 ? "s" : ""}`}
+          {likes.length > 2
+            ? `You and ${likes.length - 1} others`
+            : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
         </>
       ) : (
         <>
           <ThumbUpAltOutlined fontSize="small" />
-          &nbsp;{user.likes.length} {user.likes.length === 1 ? "Like" : "Likes"}
+          &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
         </>
       );
     }
@@ -107,7 +118,7 @@ const Post = ({ post, setCurrentId }) => {
           size="small"
           color="primary"
           disabled={!user._id}
-          onClick={() => dispatch(like(post._id))}
+          onClick={handleLike}
         >
           <Likes />
         </Button>

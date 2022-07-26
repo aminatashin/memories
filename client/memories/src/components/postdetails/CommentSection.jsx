@@ -44,15 +44,19 @@ const CommentSection = ({ postId }) => {
             Comments
           </Typography>
 
-          {/* {comments?.map((c, i) => ( */}
           <Typography gutterBottom variant="subtitle1">
             {postIdLoading ? (
               <CircularProgress />
             ) : (
-              postId.comments && postId.comments.map((c) => <div>{c}</div>)
+              postId.comments &&
+              postId.comments.map((c, i) => (
+                <Typography key={i} gutterBottom variant="subtitle1">
+                  <strong>{c.split(": ")[0]}</strong>
+                  {c.split(": ")[1]}
+                </Typography>
+              ))
             )}
           </Typography>
-          {/* ))} */}
         </div>
         {user?.firstName && (
           <div style={{ width: "70%" }}>
