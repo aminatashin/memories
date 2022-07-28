@@ -59,7 +59,7 @@ const CommentSection = ({ postId }) => {
           </Typography>
         </div>
         {user?.firstName && (
-          <div style={{ width: "70%" }}>
+          <div style={{ width: "50%" }}>
             <Typography gutterBottom variant="h6">
               Write a comment
             </Typography>

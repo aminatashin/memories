@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { removePost, like } from "../../../slice/postSlice";
 import { Link } from "react-router-dom";
+import { getPosts } from "../../../slice/fetchSlice";
 // ==================================================
 const Post = ({ post, setCurrentId }) => {
   const [likes, setLikes] = useState(post?.likes);
@@ -34,6 +35,7 @@ const Post = ({ post, setCurrentId }) => {
     } else {
       setLikes([...post.likes, user._id]);
     }
+    dispatch(getPosts());
   };
   const Likes = () => {
     if (likes.length > 0) {

@@ -41,7 +41,7 @@ const PostDetails = ({ search, user }) => {
       ) : (
         <div className={classes.card}>
           <div className={classes.section}>
-            <Typography variant="h3" component="h2">
+            <Typography variant="h3" component="h2" color="primary">
               {postId.title}
             </Typography>
             <Typography
@@ -55,8 +55,11 @@ const PostDetails = ({ search, user }) => {
             <Typography gutterBottom variant="body1" component="p">
               {postId.memory}
             </Typography>
-            <Typography variant="h6">Created by: {postId.name}</Typography>
-            <Typography variant="body1">
+            <Typography variant="h6">
+              <strong>Created by: </strong>
+              {postId.name}
+            </Typography>
+            <Typography variant="body1" color="textSecondary">
               {moment(postId.createdAt).fromNow()}
             </Typography>
             <Divider style={{ margin: "20px 0" }} />
