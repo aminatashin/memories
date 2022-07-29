@@ -81,7 +81,7 @@ const Auth = () => {
       alert("Enjoy Your Memory!");
       navigate("/");
     } else {
-      console.log("something went Wrong");
+      console.log("wrong!");
     }
   };
   // ============================================
