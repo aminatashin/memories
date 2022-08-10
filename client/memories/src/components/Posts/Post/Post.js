@@ -37,6 +37,7 @@ const Post = ({ post, setCurrentId }) => {
     }
     dispatch(getPosts());
   };
+  console.log(user._id);
   const Likes = () => {
     if (likes.length > 0) {
       return likes.find((like) => like === user._id) ? (
