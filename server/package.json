@@ -9,7 +9,7 @@
     "start": "serve -d build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node -r dotenv/config ./src/server",
-    "build": "node -r dotenv/config ./src/server"
+    "build": "node -r dotenv/config ./src/server build"
   },
   "keywords": [],
   "author": "",
